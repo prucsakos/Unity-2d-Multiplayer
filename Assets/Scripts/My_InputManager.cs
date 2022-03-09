@@ -13,9 +13,24 @@ public class My_InputManager : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
         CheckMovement();
+        CheckFire();
+        GetMouseInput();
+    }
+
+    private void GetMouseInput()
+    {
+        var dir = Camera.main.ScreenToWorldPoint(Input.mousePosition) - transform.position;
+        pc.UpdateDirection(dir);
+    }
+
+    private void CheckFire()
+    {
+        if (Input.GetButton("Fire1")){
+            pc.OnFired();
+        }
     }
 
     private void CheckMovement()
@@ -24,7 +39,7 @@ public class My_InputManager : MonoBehaviour
         float y = Input.GetAxisRaw("Vertical");
         if(x != 0f || y != 0f)
         {
-            pc.move(x, y);
+            pc.OnMove(x, y);
         }
     }
 }
