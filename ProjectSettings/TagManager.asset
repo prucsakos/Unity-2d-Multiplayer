@@ -13,9 +13,9 @@ TagManager:
   - UI
   - 
   - Blocking
+  - 
+  - Floor
   - Actor
-  - 
-  - 
   - 
   - 
   - 
@@ -40,6 +40,9 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: Blocking
+    uniqueID: 1169890047
     locked: 0
   - name: Background
     uniqueID: 318558115
