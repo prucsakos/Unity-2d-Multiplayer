@@ -2217,7 +2217,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   PlayerObject: {fileID: 1112028605}
-  BulletPrefab: {fileID: 0}
+  BulletPrefab: {fileID: 4195894578845888169, guid: e40c175d80adf5740b768aea1150d612, type: 3}
+  GunPrefab: {fileID: 0}
   mouseDir: {x: 0, y: 0, z: 0}
 --- !u!61 &1112028607
 BoxCollider2D:

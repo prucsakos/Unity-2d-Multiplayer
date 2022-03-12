@@ -16,7 +16,7 @@ TagManager:
   - 
   - Floor
   - Actor
-  - 
+  - Bullet
   - 
   - 
   - 
@@ -55,4 +55,7 @@ TagManager:
     locked: 0
   - name: Actor
     uniqueID: 1181904973
+    locked: 0
+  - name: Bullet
+    uniqueID: 1060280313
     locked: 0

@@ -22,7 +22,7 @@ public class My_InputManager : MonoBehaviour
 
     private void GetMouseInput()
     {
-        var dir = Camera.main.ScreenToWorldPoint(Input.mousePosition) - transform.position;
+        Vector3 dir = Camera.main.ScreenToWorldPoint(Input.mousePosition) - transform.position;
         pc.UpdateDirection(dir);
     }
 

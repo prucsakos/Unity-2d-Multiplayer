@@ -7,11 +7,15 @@ public class PlayerController : MonoBehaviour
 {
     public GameObject PlayerObject;
     public GameObject BulletPrefab;
+    public GameObject GunPrefab;
     public Vector3 mouseDir;
+    public float lookAngle;
     
     private BoxCollider2D boxCollider;
     private Vector3 moveDelta;
     private RaycastHit2D hit;
+
+    public bool canFire = true;
     
     void Start()
     {
@@ -22,7 +26,13 @@ public class PlayerController : MonoBehaviour
     
     private void FixedUpdate()
     {
-        
+        updateAngle();
+    }
+
+    private void updateAngle()
+    {
+        Vector2 _dir = new Vector2(mouseDir.x, mouseDir.y).normalized;
+        lookAngle = Mathf.Atan2(_dir.y, _dir.x) * Mathf.Rad2Deg;
     }
 
     internal void UpdateDirection(Vector3 dir)
@@ -32,12 +42,32 @@ public class PlayerController : MonoBehaviour
 
     internal void OnFired()
     {
-        return;
+        if (canFire)
+        {
+            GameObject go = Instantiate(BulletPrefab, this.gameObject.transform.position, this.gameObject.transform.rotation);
+            go.gameObject.transform.rotation = Quaternion.Euler(0f, 0f, lookAngle);
+            BulletMovement bm = go.AddComponent<BulletMovement>();
+            bm.velocity = 3f;
+            bm.dmg = 20;
+
+            SpriteRenderer sr = go.GetComponent<SpriteRenderer>();
+            sr.sortingLayerName = "Bullet";
+
+            Destroy(go, 5f);
+
+            canFire = false;
+            Invoke("AllowFire", 0.1f);
+        }
+    }
+
+    private void AllowFire()
+    {
+        canFire = true;
     }
 
     public void OnMove(float x = 0f, float y = 0f)
     {
-
+        
         moveDelta = new Vector3(x, y, 0);
         var _transfrom = PlayerObject.transform;
 
