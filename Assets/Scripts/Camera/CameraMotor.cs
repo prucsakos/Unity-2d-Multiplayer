@@ -1,21 +1,32 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Unity.Netcode;
 
-public class CameraMotor : MonoBehaviour
+public class CameraMotor : NetworkBehaviour
 {
     public Transform lookat;
     public float boundX = 0.15f;
     public float boundY = 0.05f;
 
+    
     public void LateUpdate()
+    {
+        if (IsLocalPlayer)
+        {
+            CamUpdate();
+        }
+        
+    }
+
+    private void CamUpdate()
     {
         Vector3 delta = Vector3.zero;
 
         float deltaX = lookat.position.x - transform.position.x;
-        if( Mathf.Abs(deltaX) > boundX)
+        if (Mathf.Abs(deltaX) > boundX)
         {
-            if(deltaX > 0)
+            if (deltaX > 0)
             {
                 delta.x = deltaX - boundX;
             }

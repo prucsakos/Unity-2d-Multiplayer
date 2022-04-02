@@ -2,27 +2,41 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Unity.Netcode;
 
-public class My_InputManager : MonoBehaviour
+public class My_InputManager : NetworkBehaviour
 {
+    public Camera cam;
     public PlayerController pc;
     // Start is called before the first frame update
     void Start()
     {
-        pc = GetComponent<PlayerController>();
+        if (!IsLocalPlayer)
+        {
+            GetComponentInChildren<Camera>().enabled = false;
+        } else
+        {
+            pc = GetComponent<PlayerController>();
+            cam = GetComponentInChildren<Camera>();
+        }
+            
     }
 
     // Update is called once per frame
     void FixedUpdate()
     {
-        CheckMovement();
-        CheckFire();
-        GetMouseInput();
+        if (IsLocalPlayer)
+        {
+            CheckMovement();
+            CheckFire();
+            GetMouseInput();
+        }
+        
     }
 
     private void GetMouseInput()
     {
-        Vector3 dir = Camera.main.ScreenToWorldPoint(Input.mousePosition) - transform.position;
+        Vector3 dir = cam.ScreenToWorldPoint(Input.mousePosition) - transform.position;
         pc.UpdateDirection(dir);
     }
 

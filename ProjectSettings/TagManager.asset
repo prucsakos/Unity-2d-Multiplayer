@@ -3,7 +3,8 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - BackgroundCamera
   layers:
   - Default
   - TransparentFX
@@ -58,4 +59,10 @@ TagManager:
     locked: 0
   - name: Bullet
     uniqueID: 1060280313
+    locked: 0
+  - name: Overlayer
+    uniqueID: 2910873281
+    locked: 0
+  - name: UI
+    uniqueID: 1072238733
     locked: 0

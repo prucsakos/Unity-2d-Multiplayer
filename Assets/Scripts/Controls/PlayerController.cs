@@ -2,8 +2,9 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Unity.Netcode;
 
-public class PlayerController : MonoBehaviour
+public class PlayerController : NetworkBehaviour
 {
     public GameObject PlayerObject;
     public GameObject BulletPrefab;
@@ -15,18 +16,65 @@ public class PlayerController : MonoBehaviour
     private Vector3 moveDelta;
     private RaycastHit2D hit;
 
+    public Camera cam;
+
     public bool canFire = true;
+
+    //weapon traits
+    public float fireRate = 0.1f;
+    public int bulletDmg = 20;
+    public float bulletVelocity = 3f;
+    public float bulletRange = 3f;
     
     void Start()
     {
+        PlayerObject = gameObject;
+        gameObject.tag = "Player";
         boxCollider = PlayerObject.AddComponent<BoxCollider2D>();
 
+        cam = GetComponentInChildren<Camera>();
+
+        if (!IsLocalPlayer)
+        {
+            GetComponentInChildren<Camera>().enabled = false;
+        }
+        
     }
 
     
     private void FixedUpdate()
     {
-        updateAngle();
+        if (IsLocalPlayer)
+        {
+            CheckMovement();
+            CheckFire();
+            GetMouseInput();
+            updateAngle();
+        }
+        
+    }
+
+    private void GetMouseInput()
+    {
+        mouseDir = cam.ScreenToWorldPoint(Input.mousePosition) - transform.position;
+    }
+
+    private void CheckFire()
+    {
+        if (Input.GetButton("Fire1"))
+        {
+            OnFired();
+        }
+    }
+
+    private void CheckMovement()
+    {
+        float x = Input.GetAxisRaw("Horizontal");
+        float y = Input.GetAxisRaw("Vertical");
+        if (x != 0f || y != 0f)
+        {
+            OnMove(x, y);
+        }
     }
 
     private void updateAngle()
@@ -35,31 +83,61 @@ public class PlayerController : MonoBehaviour
         lookAngle = Mathf.Atan2(_dir.y, _dir.x) * Mathf.Rad2Deg;
     }
 
+    
     internal void UpdateDirection(Vector3 dir)
     {
         mouseDir = dir;
     }
-
+    
+    // Call server rpc. Instanciate (Spawn) bullet with Netw. Transform Obj..  Check collision on server only.
     internal void OnFired()
     {
         if (canFire)
         {
-            GameObject go = Instantiate(BulletPrefab, this.gameObject.transform.position, this.gameObject.transform.rotation);
-            go.gameObject.transform.rotation = Quaternion.Euler(0f, 0f, lookAngle);
-            BulletMovement bm = go.AddComponent<BulletMovement>();
-            bm.velocity = 3f;
-            bm.dmg = 20;
-
-            SpriteRenderer sr = go.GetComponent<SpriteRenderer>();
-            sr.sortingLayerName = "Bullet";
-
-            Destroy(go, 5f);
+            ShootServerRpc(transform.position, lookAngle, NetworkObject.NetworkObjectId);
 
             canFire = false;
-            Invoke("AllowFire", 0.1f);
+            Invoke("AllowFire", fireRate);
         }
     }
+    [ServerRpc]
+    void ShootServerRpc(Vector3 v, float lookAngle, ulong id)
+    {
+        SetupBulletInst(v, lookAngle, id);
+        /*
+        var bull = SetupBulletInst(v, lookAngle);
+        
+        if (bull.TryGetComponent<NetworkObject>(out NetworkObject no))
+        {
+            no.Spawn();
+        }
+        */
+        ShootClientRpc(v, lookAngle, id);
 
+    }
+    
+    [ClientRpc]
+    void ShootClientRpc(Vector3 v, float lookAngle, ulong id)
+    {
+        if (IsHost) return;
+        SetupBulletInst(v, lookAngle, id);
+    }
+    
+    GameObject SetupBulletInst(Vector3 v, float lookAngle, ulong id)
+    {
+        GameObject go = Instantiate(BulletPrefab, gameObject.transform.position, Quaternion.identity);
+        go.gameObject.transform.rotation = Quaternion.Euler(0f, 0f, lookAngle);
+        // BulletMovement bm = go.AddComponent<BulletMovement>();
+        BulletMovement bm = go.GetComponent<BulletMovement>();
+        bm.srcObjId = id;
+        bm.velocity = bulletVelocity;
+        bm.dmg = bulletDmg;
+        
+        
+        Destroy(go, bulletRange);
+
+        return go;
+    }
     private void AllowFire()
     {
         canFire = true;
@@ -79,6 +157,8 @@ public class PlayerController : MonoBehaviour
         {
             _transfrom.localScale = new Vector3(-1, 1, 1);
         }
+
+
 
 
         hit = Physics2D.BoxCast(_transfrom.position, boxCollider.size, 0, new Vector2(moveDelta.x, 0), Mathf.Abs(moveDelta.x * Time.deltaTime), LayerMask.GetMask("Actor", "Blocking"));
