@@ -8,8 +8,8 @@ public class BulletMovement : NetworkBehaviour
 {
     public int dmg;
     public float velocity;
-    public Rigidbody2D rb;
-    public CircleCollider2D cc;
+    // public Rigidbody2D rb;
+    // public CircleCollider2D cc;
     public ulong srcObjId;  // Network Id from NetworkObject
     //public Vector2 dir;
 
@@ -36,7 +36,7 @@ public class BulletMovement : NetworkBehaviour
     void Update()
     {
         //transform.Translate(dir * velocity * Time.deltaTime);
-        transform.Translate(1 * velocity * Time.deltaTime, 0, 0);
+        transform.Translate(velocity * Time.deltaTime, 0, 0);
     }
 
 
@@ -47,7 +47,7 @@ public class BulletMovement : NetworkBehaviour
         {
             if (no.NetworkObjectId == srcObjId)
             {
-                Debug.Log("Same Ids");
+                //Debug.Log("Same Ids");
                 return;
             }
         }

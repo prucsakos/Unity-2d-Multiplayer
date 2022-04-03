@@ -20,7 +20,8 @@ public class PlayerController : NetworkBehaviour
 
     public bool canFire = true;
 
-    //weapon traits
+    //weapon traits    legyen struktúra, paraméterben adódjon át Instanciate()-nak és Rpc-knek.
+    //  weapong trait - serialized, szerver változók. 
     public float fireRate = 0.1f;
     public int bulletDmg = 20;
     public float bulletVelocity = 3f;
@@ -130,6 +131,8 @@ public class PlayerController : NetworkBehaviour
         // BulletMovement bm = go.AddComponent<BulletMovement>();
         BulletMovement bm = go.GetComponent<BulletMovement>();
         bm.srcObjId = id;
+        if(IsServer) Debug.Log("Szerver átadja: " + bulletVelocity.ToString());
+        else if(IsClient) Debug.Log("Cliens átadja: " + bulletVelocity.ToString());
         bm.velocity = bulletVelocity;
         bm.dmg = bulletDmg;
         

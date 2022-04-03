@@ -6,7 +6,6 @@ using System;
 
 public class ConnectionManager : MonoBehaviour
 {
-    public GameObject MenuCanvas;
     private void Start()
     {
         DontDestroyOnLoad(this);
@@ -15,7 +14,6 @@ public class ConnectionManager : MonoBehaviour
     {
         NetworkManager.Singleton.ConnectionApprovalCallback += ApprovalCheck;
         NetworkManager.Singleton.StartHost();
-        MenuCanvas.SetActive(false);
     }
 
     private void ApprovalCheck(byte[] connectionData, ulong clientId, NetworkManager.ConnectionApprovedDelegate callback)
@@ -26,6 +24,5 @@ public class ConnectionManager : MonoBehaviour
     public void Join()
     {
         NetworkManager.Singleton.StartClient();
-        MenuCanvas.SetActive(false);
     }
 }

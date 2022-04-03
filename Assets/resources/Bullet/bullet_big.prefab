@@ -197,3 +197,4 @@ MonoBehaviour:
   velocity: 0.01
   rb: {fileID: 0}
   cc: {fileID: 0}
+  srcObjId: 0
