@@ -18,6 +18,7 @@ public class PlayerController : NetworkBehaviour
 
     public Camera cam;
 
+
     public bool canFire = true;
 
     //weapon traits    legyen struktúra, paraméterben adódjon át Instanciate()-nak és Rpc-knek.
@@ -29,10 +30,10 @@ public class PlayerController : NetworkBehaviour
     
     void Start()
     {
+        Debug.Log("Awake");
         PlayerObject = gameObject;
         gameObject.tag = "Player";
         boxCollider = PlayerObject.AddComponent<BoxCollider2D>();
-
         cam = GetComponentInChildren<Camera>();
 
         if (!IsLocalPlayer)
@@ -42,7 +43,7 @@ public class PlayerController : NetworkBehaviour
         
     }
 
-    
+
     private void FixedUpdate()
     {
         if (IsLocalPlayer)
@@ -98,7 +99,7 @@ public class PlayerController : NetworkBehaviour
             ShootServerRpc(transform.position, lookAngle, NetworkObject.NetworkObjectId);
 
             canFire = false;
-            Invoke("AllowFire", fireRate);
+            Invoke(nameof(AllowFire), fireRate);
         }
     }
     [ServerRpc]
@@ -164,12 +165,12 @@ public class PlayerController : NetworkBehaviour
 
 
 
-        hit = Physics2D.BoxCast(_transfrom.position, boxCollider.size, 0, new Vector2(moveDelta.x, 0), Mathf.Abs(moveDelta.x * Time.deltaTime), LayerMask.GetMask("Actor", "Blocking"));
+        hit = Physics2D.BoxCast(_transfrom.position, boxCollider.size, 0, new Vector2(moveDelta.x, 0), Mathf.Abs(moveDelta.x * Time.deltaTime), LayerMask.GetMask("AI", "Actor", "Blocking"));
         if (hit.collider == null)
         {
             transform.Translate(moveDelta.x * Time.deltaTime, 0f, 0f);
         }
-        hit = Physics2D.BoxCast(_transfrom.position, boxCollider.size, 0, new Vector2(0, moveDelta.y), Mathf.Abs(moveDelta.y * Time.deltaTime), LayerMask.GetMask("Actor", "Blocking"));
+        hit = Physics2D.BoxCast(_transfrom.position, boxCollider.size, 0, new Vector2(0, moveDelta.y), Mathf.Abs(moveDelta.y * Time.deltaTime), LayerMask.GetMask("AI", "Actor", "Blocking"));
         if (hit.collider == null)
         {
             transform.Translate(0f, moveDelta.y * Time.deltaTime, 0f);

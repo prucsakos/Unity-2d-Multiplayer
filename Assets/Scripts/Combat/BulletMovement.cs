@@ -6,6 +6,26 @@ using Unity.Netcode;
 [RequireComponent(typeof(NetworkObject))]
 public class BulletMovement : NetworkBehaviour
 {
+    public static GameObject SetupBulletInst(Vector3 position, Vector3 direction, ulong id, GameObject prefab, float bulletVelocity=3f, int bulletDmg = 20, float bulletRange = 1f )
+    {
+        GameObject go = Instantiate(prefab, position, Quaternion.identity);
+        go.transform.right = direction;
+        // BulletMovement bm = go.AddComponent<BulletMovement>();
+        BulletMovement bm = go.GetComponent<BulletMovement>();
+        bm.srcObjId = id;
+        /*
+        if (IsServer) Debug.Log("Szerver átadja: " + bulletVelocity.ToString());
+        else if (IsClient) Debug.Log("Cliens átadja: " + bulletVelocity.ToString());
+        */
+        bm.velocity = bulletVelocity;
+        bm.dmg = bulletDmg;
+
+        
+        Destroy(go, bulletRange);
+
+        return go;
+    }
+
     public int dmg;
     public float velocity;
     // public Rigidbody2D rb;

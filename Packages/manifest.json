@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "com.h8man.2d.navmeshplus": "https://github.com/h8man/NavMeshPlus.git",
     "com.hwaet.projectcloner": "https://github.com/hwaet/UnityProjectCloner.git",
     "com.unity.2d.animation": "6.0.7",
     "com.unity.2d.pixel-perfect": "5.0.1",
