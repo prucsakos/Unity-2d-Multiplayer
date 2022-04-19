@@ -13,18 +13,18 @@ public class EnemyAI : NetworkBehaviour
 
     private Vector3 lastPos;
 
-    public LayerMask whatIsGround, whatIsPlayer;
+    public LayerMask whatIsGround, whatIsPlayer, whatIsBlocking;
     public float destinationReachedMargin = 0.3f;
 
-    //Closest search optimization
-    bool closestSearched = false;
 
     //Patroling
+    public float patrolVelocity;
     public Vector3 walkPoint;
     public bool walkPointSet;
     public float walkPointRange;
 
     //Attacking
+    public float chaseVelocity;
     public float timeBetweenAttacks;
     bool alreadyAttacked;
     public GameObject bullet;
@@ -42,7 +42,7 @@ public class EnemyAI : NetworkBehaviour
             agent.updateUpAxis = false;
             agent.updateRotation = false;
             agent.speed = 0.5f;
-            agent.acceleration = 2f;
+            agent.acceleration = 1f;
 
             lastPos = Vector3.zero;
 
@@ -95,23 +95,31 @@ public class EnemyAI : NetworkBehaviour
     
     void doUpdate()
     {
-      
+
+        if (hasTarget)
+        {
+            if (target == null) hasTarget = false;
+        }
         
         playerInSightRange = Physics2D.OverlapCircle(transform.position, sightRange, whatIsPlayer);
         playerInAttackRange = Physics2D.OverlapCircle(transform.position, attackRange, whatIsPlayer);
 
         if (!playerInSightRange && !playerInAttackRange) {
             hasTarget = false;
+            if (agent.speed != patrolVelocity) agent.speed = patrolVelocity;
             Patroling();
         } 
         else
         {
-            Debug.Log("else ág");
             if(hasTarget == false)
             {
                 FindTarget();
             }
-            if (playerInSightRange && !playerInAttackRange) ChasePlayer();
+            if (playerInSightRange && !playerInAttackRange)
+            {
+                if (agent.speed != chaseVelocity) agent.speed = chaseVelocity;
+                ChasePlayer();
+            }
             if (playerInSightRange && playerInAttackRange) AttackPlayer();
         }
 
@@ -123,7 +131,6 @@ public class EnemyAI : NetworkBehaviour
     
     private void Patroling()
     {
-        Debug.Log("patrol");
         if (!walkPointSet) SearchWalkPoint();
         if (walkPointSet)
         {
@@ -131,7 +138,6 @@ public class EnemyAI : NetworkBehaviour
         }
 
         Vector3 distanceToWalkPoint = transform.position - walkPoint;
-        Debug.LogWarning(distanceToWalkPoint.magnitude);
         if(distanceToWalkPoint.magnitude < destinationReachedMargin)
         {
             walkPointSet = false;
@@ -144,13 +150,19 @@ public class EnemyAI : NetworkBehaviour
 
         walkPoint = new Vector3(transform.position.x + randomX, transform.position.y +  randomY, 0);
 
-        if(Physics2D.Raycast(walkPoint, transform.forward, 1f, whatIsGround))
+        int MAX_SEARCH_PER_FRAME = 2;
+
+        while(MAX_SEARCH_PER_FRAME>0 && Physics2D.Raycast(walkPoint, transform.forward, 1f, whatIsGround) && !Physics2D.Raycast(walkPoint, transform.forward, 1f, whatIsBlocking))
         {
-            walkPointSet = true;
+            MAX_SEARCH_PER_FRAME--;
+
+            randomX = Random.Range(-walkPointRange, walkPointRange);
+            randomY = Random.Range(-walkPointRange, walkPointRange);
+
+            walkPoint = new Vector3(transform.position.x + randomX, transform.position.y + randomY, 0);
         }
-        {
-            Debug.LogError("EnemyAI, SearchWalkPoint, Raycast fail");
-        }
+
+        walkPointSet = true;
     }
     private void ChasePlayer()
     {
@@ -176,22 +188,20 @@ public class EnemyAI : NetworkBehaviour
             GameObject b = BulletMovement.SetupBulletInst(transform.position, dir, NetworkObjectId, bullet);
             AttackLogicClientRpc(transform.position, dir, NetworkObjectId);
             alreadyAttacked = true;
-            Invoke(nameof(enableAttacked), 0.3f);
+            Invoke(nameof(enableAttacked), timeBetweenAttacks);
         }
     }
     [ClientRpc]
     private void AttackLogicClientRpc(Vector3 pos, Vector3 d, ulong id)
     {
+        if (IsHost) return;
         BulletMovement.SetupBulletInst(pos, d, id, bullet);
     }
     private void enableAttacked()
     {
         alreadyAttacked = false;
     }
-    private void enableSearch()
-    {
-        closestSearched = false;
-    }
+    
     public Transform SearchClosestPlayer()
     {
       GameObject[] founds = GameObject.FindGameObjectsWithTag("Actor");

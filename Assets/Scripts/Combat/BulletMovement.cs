@@ -6,7 +6,7 @@ using Unity.Netcode;
 [RequireComponent(typeof(NetworkObject))]
 public class BulletMovement : NetworkBehaviour
 {
-    public static GameObject SetupBulletInst(Vector3 position, Vector3 direction, ulong id, GameObject prefab, float bulletVelocity=3f, int bulletDmg = 20, float bulletRange = 1f )
+    public static GameObject SetupBulletInst(Vector3 position, Vector3 direction, ulong id, GameObject prefab, float bulletVelocity=3f, int bulletDmg = 1, float bulletRange = 1f )
     {
         GameObject go = Instantiate(prefab, position, Quaternion.identity);
         go.transform.right = direction;
@@ -38,7 +38,7 @@ public class BulletMovement : NetworkBehaviour
     void Start()
     {
         
-        gameObject.layer = 11;
+        gameObject.layer = LayerMask.NameToLayer("Bullet");
         SpriteRenderer sr = GetComponent<SpriteRenderer>();
         sr.sortingLayerName = "Bullet";
         /*
@@ -77,7 +77,7 @@ public class BulletMovement : NetworkBehaviour
         {
             if (IsServer) //Damage 
             {
-                d.TakeDMG(dmg);
+                d.TakeDMGServer(dmg);
             }
             Destroy(gameObject);
             return;

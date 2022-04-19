@@ -19,7 +19,7 @@ TagManager:
   - AI
   - Actor
   - Bullet
-  - 
+  - WorldItem
   - 
   - 
   - 
@@ -53,6 +53,9 @@ TagManager:
     locked: 0
   - name: Wall
     uniqueID: 755405625
+    locked: 0
+  - name: WorldItem
+    uniqueID: 728313035
     locked: 0
   - name: Actor
     uniqueID: 1181904973

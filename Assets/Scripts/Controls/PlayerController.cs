@@ -9,6 +9,7 @@ public class PlayerController : NetworkBehaviour
     public GameObject PlayerObject;
     public GameObject BulletPrefab;
     public GameObject GunPrefab;
+    //public GameObject UI_INV_GO;
     public Vector3 mouseDir;
     public float lookAngle;
     
@@ -17,30 +18,39 @@ public class PlayerController : NetworkBehaviour
     private RaycastHit2D hit;
 
     public Camera cam;
-
+    public Inventory inventory;
+    [SerializeField] public UIInventory uiInventory;
+    public bool isGUIOpened = false;
 
     public bool canFire = true;
 
     //weapon traits    legyen struktúra, paraméterben adódjon át Instanciate()-nak és Rpc-knek.
     //  weapong trait - serialized, szerver változók. 
     public float fireRate = 0.1f;
-    public int bulletDmg = 20;
+    public int bulletDmg = 1;
     public float bulletVelocity = 3f;
     public float bulletRange = 3f;
     
     void Start()
     {
-        Debug.Log("Awake");
         PlayerObject = gameObject;
         gameObject.tag = "Player";
-        boxCollider = PlayerObject.AddComponent<BoxCollider2D>();
+        boxCollider = PlayerObject.GetComponent<BoxCollider2D>();
         cam = GetComponentInChildren<Camera>();
-
         if (!IsLocalPlayer)
         {
             GetComponentInChildren<Camera>().enabled = false;
         }
-        
+
+        inventory = new Inventory(UseItem);
+        uiInventory.SetInventory(inventory);
+        uiInventory.gameObject.SetActive(false);
+        uiInventory.SetPlayer(this);
+
+
+
+        // test
+        ItemWorld.SpawnItemWorld(transform.position, new Item { itemType = Item.ItemType.RocketLauncher, amount = 1 });
     }
 
 
@@ -48,19 +58,44 @@ public class PlayerController : NetworkBehaviour
     {
         if (IsLocalPlayer)
         {
+            if (!isGUIOpened)
+            {
+            CheckInventory();
             CheckMovement();
             CheckFire();
             GetMouseInput();
             updateAngle();
+
+            } else
+            {
+                CheckInventory();
+            }
         }
         
     }
 
+    private void CheckInventory()
+    {
+        if (Input.GetKey(KeyCode.Tab))
+        {
+            if (!uiInventory.gameObject.activeSelf)
+            {
+                uiInventory.gameObject.SetActive(true);
+                isGUIOpened = true;
+            }
+        } else
+        {
+            if (uiInventory.gameObject.activeSelf)
+            {
+                uiInventory.gameObject.SetActive(false);
+                isGUIOpened = false;
+            }
+        }
+    }
     private void GetMouseInput()
     {
         mouseDir = cam.ScreenToWorldPoint(Input.mousePosition) - transform.position;
     }
-
     private void CheckFire()
     {
         if (Input.GetButton("Fire1"))
@@ -68,7 +103,6 @@ public class PlayerController : NetworkBehaviour
             OnFired();
         }
     }
-
     private void CheckMovement()
     {
         float x = Input.GetAxisRaw("Horizontal");
@@ -78,19 +112,15 @@ public class PlayerController : NetworkBehaviour
             OnMove(x, y);
         }
     }
-
     private void updateAngle()
     {
         Vector2 _dir = new Vector2(mouseDir.x, mouseDir.y).normalized;
         lookAngle = Mathf.Atan2(_dir.y, _dir.x) * Mathf.Rad2Deg;
     }
-
-    
     internal void UpdateDirection(Vector3 dir)
     {
         mouseDir = dir;
     }
-    
     // Call server rpc. Instanciate (Spawn) bullet with Netw. Transform Obj..  Check collision on server only.
     internal void OnFired()
     {
@@ -117,14 +147,12 @@ public class PlayerController : NetworkBehaviour
         ShootClientRpc(v, lookAngle, id);
 
     }
-    
     [ClientRpc]
     void ShootClientRpc(Vector3 v, float lookAngle, ulong id)
     {
         if (IsHost) return;
         SetupBulletInst(v, lookAngle, id);
     }
-    
     GameObject SetupBulletInst(Vector3 v, float lookAngle, ulong id)
     {
         GameObject go = Instantiate(BulletPrefab, gameObject.transform.position, Quaternion.identity);
@@ -146,7 +174,6 @@ public class PlayerController : NetworkBehaviour
     {
         canFire = true;
     }
-
     public void OnMove(float x = 0f, float y = 0f)
     {
         
@@ -174,6 +201,40 @@ public class PlayerController : NetworkBehaviour
         if (hit.collider == null)
         {
             transform.Translate(0f, moveDelta.y * Time.deltaTime, 0f);
+        }
+    }
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        //pickup collectable items
+        collision.TryGetComponent<ItemWorld>(out ItemWorld iw);
+        if (iw != null && iw.IsPickupAble)
+        {
+            //touch item
+            inventory.AddItem(iw.getItem());
+            iw.DestroySelf();
+        }
+    }
+    private void UseItem(Item item)
+    {
+        switch (item.itemType)
+        {
+            case Item.ItemType.HealthPotion:
+                inventory.RemoveItem(new Item { itemType = item.itemType, amount = 1 });
+                break;
+            case Item.ItemType.Coin:
+                break;
+            case Item.ItemType.Pistol:
+                break;
+            case Item.ItemType.AR:
+                break;
+            case Item.ItemType.RocketLauncher:
+                break;
+            case Item.ItemType.Head:
+                break;
+            case Item.ItemType.Body:
+                break;
+            default:
+                break;
         }
     }
 }
