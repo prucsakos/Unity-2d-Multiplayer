@@ -21,4 +21,8 @@ public class ItemAssets : MonoBehaviour
     public Sprite healthPotionSprite;
     public Sprite coinSprite;
     public Sprite notFound;
+
+    public Sprite emptyGunSlot;
+    public Sprite emptyHeadSlot;
+    public Sprite emptyBodySlot;
 }

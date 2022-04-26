@@ -10,13 +10,18 @@ public class UIInventory : MonoBehaviour
     private Inventory inventory;
     private Transform itemSlotContainer;
     private Transform itemSlotTemplate;
+    private Transform inventoryHelmetSlot;
+    private Transform inventoryArmorSlot;
+    private Transform inventoryGunSlot;
     private PlayerController player;
 
     private void Awake()
     {
         itemSlotContainer = transform.Find("InventorySlotsContainerGrid");
         itemSlotTemplate = transform.Find("ItemSlotTemplate");
-        
+        inventoryHelmetSlot = transform.Find("CharacterSlotsBackground/Head");
+        inventoryArmorSlot = transform.Find("CharacterSlotsBackground/Body");
+        inventoryGunSlot = transform.Find("CharacterSlotsBackground/Weapon");
     }
 
     public void SetPlayer(PlayerController p)
@@ -38,6 +43,41 @@ public class UIInventory : MonoBehaviour
 
     private void RefreshInventoryItems()
     {
+        Image helmIm = inventoryHelmetSlot.Find("Image").GetComponent<Image>();
+        Image armIm = inventoryArmorSlot.Find("Image").GetComponent<Image>();
+        Image gunIm = inventoryGunSlot.Find("Image").GetComponent<Image>();
+        // CHECK HELMET SLOT
+        Item helm = inventory.getHelmet();
+        if(helm == null)
+        {
+            helmIm.sprite = ItemAssets.Instance.emptyHeadSlot;
+        } else
+        {
+            helmIm.sprite = helm.GetSprite();
+        }
+        // CHECK ARMOR SLOT
+        Item arm = inventory.getArmor();
+        if (arm == null)
+        {
+            armIm.sprite = ItemAssets.Instance.emptyBodySlot;
+        }
+        else
+        {
+            armIm.sprite = arm.GetSprite();
+        }
+        // CHECK GUN SLOT
+        Item gun = inventory.getWeapon();
+        if (gun == null)
+        {
+            gunIm.sprite = ItemAssets.Instance.emptyGunSlot;
+            Debug.Log("EMPTYGUNSLOT");
+        }
+        else
+        {
+            gunIm.sprite = gun.GetSprite();
+            Debug.Log("GUNSLOTFOUND");
+        }
+
         //make it empty
         foreach (Transform child in itemSlotContainer)
         {

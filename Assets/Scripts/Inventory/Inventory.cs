@@ -9,8 +9,15 @@ public class Inventory
 
     public event EventHandler ItemListChanged;
 
+
     private List<Item> itemList;
     private Action<Item> useItemAction;
+
+    //Character Item Slots
+    private Item Helmet;
+    private Item Armor;
+    private Item Weapon;
+
     public Inventory(Action<Item> useItemAction)
     {
         itemList = new List<Item>();
@@ -77,5 +84,71 @@ public class Inventory
     public List<Item> getItemList()
     {
         return itemList;
+    }
+    public Item getHelmet()
+    {
+        return Helmet;
+    }
+    public Item getArmor()
+    {
+        return Armor;
+    }
+    public Item getWeapon()
+    {
+        return Weapon;
+    }
+    public void EquipItem(Item item)
+    {
+        switch (item.itemType)
+        {
+            case Item.ItemType.Pistol:
+            case Item.ItemType.AR:
+            case Item.ItemType.RocketLauncher:
+                if(Weapon == null)
+                {
+                    Weapon = item;
+
+                } else
+                {
+                    Item tmp = Weapon;
+                    Weapon = item;
+                    AddItem(tmp);
+                }
+                RemoveItem(item);
+                ItemListChanged?.Invoke(this, EventArgs.Empty);
+                break;
+            case Item.ItemType.Head:
+                if (Helmet == null)
+                {
+                    Helmet = item;
+
+                }
+                else
+                {
+                    Item tmp = Helmet;
+                    Helmet = item;
+                    AddItem(tmp);
+                }
+                RemoveItem(item);
+                ItemListChanged?.Invoke(this, EventArgs.Empty);
+                break;
+            case Item.ItemType.Body:
+                if (Armor == null)
+                {
+                    Armor = item;
+
+                }
+                else
+                {
+                    Item tmp = Armor;
+                    Armor = item;
+                    AddItem(tmp);
+                }
+                RemoveItem(item);
+                ItemListChanged?.Invoke(this, EventArgs.Empty);
+                break;
+            default:
+                return;
+        }
     }
 }

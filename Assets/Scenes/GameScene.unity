@@ -209,6 +209,9 @@ MonoBehaviour:
   healthPotionSprite: {fileID: -8721964507169126584, guid: 716bd93564fff024dad684851c6e9d87, type: 3}
   coinSprite: {fileID: 3802224214994464000, guid: 716bd93564fff024dad684851c6e9d87, type: 3}
   notFound: {fileID: 5860025163644826426, guid: 716bd93564fff024dad684851c6e9d87, type: 3}
+  emptyGunSlot: {fileID: 21300000, guid: 6a318251b70177a409dc1b41a1331bfe, type: 3}
+  emptyHeadSlot: {fileID: 21300000, guid: 8e32924692e35b241aa3babcaf91bafc, type: 3}
+  emptyBodySlot: {fileID: 21300000, guid: 7f5efa432dbbbec42a1dc285a83903b3, type: 3}
 --- !u!4 &142032995 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6448238948838865495, guid: f731a630f2418704cb75f8335bc0675f, type: 3}
@@ -8232,6 +8235,14 @@ PrefabInstance:
     - target: {fileID: 2069397689711756191, guid: b363cb112a7186744bc78f31993607b6, type: 3}
       propertyPath: m_Name
       value: npc
+      objectReference: {fileID: 0}
+    - target: {fileID: 7538014332273165005, guid: b363cb112a7186744bc78f31993607b6, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7538014332273165005, guid: b363cb112a7186744bc78f31993607b6, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b363cb112a7186744bc78f31993607b6, type: 3}

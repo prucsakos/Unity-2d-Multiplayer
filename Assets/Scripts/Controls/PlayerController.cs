@@ -69,6 +69,7 @@ public class PlayerController : NetworkBehaviour
             } else
             {
                 CheckInventory();
+                CheckMovement();
             }
         }
         
@@ -224,14 +225,11 @@ public class PlayerController : NetworkBehaviour
             case Item.ItemType.Coin:
                 break;
             case Item.ItemType.Pistol:
-                break;
             case Item.ItemType.AR:
-                break;
             case Item.ItemType.RocketLauncher:
-                break;
             case Item.ItemType.Head:
-                break;
             case Item.ItemType.Body:
+                inventory.EquipItem(item);
                 break;
             default:
                 break;

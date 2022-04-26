@@ -16,6 +16,13 @@ public class Item
         HealthPotion,
         Coin
     }
+    public enum ItemTier
+    {
+        Common,
+        Good,
+        Rare,
+        Legendary
+    }
 
     public ItemType itemType;
     public int amount;
@@ -50,5 +57,10 @@ public class Item
             case ItemType.Head:
                 return false;
         }
+    }
+
+    public Item clone()
+    {
+        return new Item() { amount = this.amount, itemType = this.itemType };
     }
 }
