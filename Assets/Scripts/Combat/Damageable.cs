@@ -17,24 +17,64 @@ public class Damageable : NetworkBehaviour
 
     [SerializeField] public UIHealthBar uiHealthBar;
 
+    public NetworkVariable<int> NetHP = new NetworkVariable<int>();
     public int HP;
     public int MaxHP = 100;
-
     private void Start()
     {
-        HP = MaxHP;
         uiHealthBar.setDamagable(GetComponent<Damageable>());
+        // ONNETWORKSPAWN
     }
+    public override void OnNetworkSpawn()
+    {
+        Debug.Log("ONNETWORKS");
+        NetHP.OnValueChanged += OnNetHpChanged;
+        if (IsServer)
+        {
+            NetHP.Value = MaxHP;
+            HP = MaxHP;
+            HpChanged?.Invoke(this, EventArgs.Empty);
+        }
+        if (IsClient)
+        {
+            HP = NetHP.Value;
+            HpChanged?.Invoke(this, EventArgs.Empty);
+        }
+        /*
+        if(IsLocalPlayer)
+        {
+            SyncNetValuesServerRpc();
+        }
+        */
+    }
+    public override void OnNetworkDespawn()
+    {
+        NetHP.OnValueChanged -= OnNetHpChanged;
+    }
+
+    private void OnNetHpChanged(int previousValue, int newValue)
+    {
+        HP = NetHP.Value;
+        HpChanged?.Invoke(this, EventArgs.Empty);
+
+    }
+    /*
+    [ServerRpc(RequireOwnership =false)]
+    private void SyncNetValuesServerRpc()
+    {
+        NetHP.OnValueChanged?.Invoke(HP, HP);
+    }
+    */
     public void TakeDMGServer(int dmg)
     {
         TakeDMG(dmg);
-        TakeDMGClientRpc(dmg);
+        //TakeDMGClientRpc(dmg);
     }
 
     [ClientRpc]
     void TakeDMGClientRpc(int dmg)
     {
-        //if (IsHost) return;
+        if (IsHost) return;
         TakeDMG(dmg);
         
     }
@@ -42,6 +82,8 @@ public class Damageable : NetworkBehaviour
     public void TakeDMG(int dmg)
     {
         HP -= dmg;
+        NetHP.Value = HP;
+        NetHP.OnValueChanged?.Invoke(0,0);
         HpChanged?.Invoke(this, EventArgs.Empty);
         if (IsServer && HP <= 0)
         {

@@ -43,6 +43,5 @@ public class UIHealthBar : MonoBehaviour
     {
         slider.value = damage.GetHP();
         fill.color = gradient.Evaluate(slider.normalizedValue);
-        Debug.Log("CHANGED");
     }
 }

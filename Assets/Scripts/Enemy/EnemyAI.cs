@@ -180,8 +180,6 @@ public class EnemyAI : NetworkBehaviour
     [ServerRpc]
     private void AttackLogicServerRpc()
     {
-        
-        Debug.Log("Attack");
         if (!alreadyAttacked)
         {
             var dir = target.position - transform.position;
