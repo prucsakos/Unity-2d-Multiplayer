@@ -138,9 +138,9 @@ public class UIInventory : MonoBehaviour
             ch.OnLeftClickAction = () =>
             {
                 // Drop Item
-                inventory.RemoveItem(item);
-                ItemWorld.DropItem(player.transform.position, player.mouseDir, item);
-                // player.DropItem(player.transform.position, player.mouseDir, item);
+                inventory.RemoveItem(item, true);
+                // ItemWorld.DropItem(player.transform.position, player.mouseDir, item);
+                player.DropItem(player.transform.position, player.mouseDir, item, true);
             };
             ch.OnRightClickAction = () =>
             {
@@ -171,7 +171,7 @@ public class UIInventory : MonoBehaviour
         if (ih)
         {
             if (!ih.isSet) return;
-            if (ih.state == ItemHolder.State.InInventory && ih.item.itemType == Item.ItemType.Head)
+            if (ih.state == ItemHolder.State.InInventory && ih.item.itemType == ItemType.Head)
             {
                 inventory.EquipItem(ih.item);
             }
@@ -183,7 +183,7 @@ public class UIInventory : MonoBehaviour
         if (ih)
         {
             if (!ih.isSet) return;
-            if (ih.state == ItemHolder.State.InInventory && ih.item.itemType == Item.ItemType.Body)
+            if (ih.state == ItemHolder.State.InInventory && ih.item.itemType == ItemType.Body)
             {
                 inventory.EquipItem(ih.item);
             }
@@ -195,7 +195,7 @@ public class UIInventory : MonoBehaviour
         if (ih)
         {
             if (!ih.isSet) return;
-            if (ih.state == ItemHolder.State.InInventory && (ih.item.itemType == Item.ItemType.Pistol || ih.item.itemType == Item.ItemType.AR || ih.item.itemType == Item.ItemType.RocketLauncher))
+            if (ih.state == ItemHolder.State.InInventory && (ih.item.itemType == ItemType.Pistol || ih.item.itemType == ItemType.AR || ih.item.itemType == ItemType.RocketLauncher))
             {
                 inventory.EquipItem(ih.item);
             }

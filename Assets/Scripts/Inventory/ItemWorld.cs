@@ -31,11 +31,12 @@ public class ItemWorld : NetworkBehaviour
         iw.GetComponent<Rigidbody2D>().AddForce(dir * 1.3f, ForceMode2D.Impulse);
         return iw;
     }
-
-    private Item item;
+    public NetworkVariable<ItemStructNetcode> ItemStructNetVar = new NetworkVariable<ItemStructNetcode>();
+    [SerializeField] private Item item;
     private SpriteRenderer spriteRenderer;
     private TextMeshPro textMeshPro;
     public bool IsPickupAble = true;
+    public bool isItemSet = false;
 
     private void Awake()
     {
@@ -47,12 +48,35 @@ public class ItemWorld : NetworkBehaviour
         IsPickupAble = false;
         Invoke(nameof(setTriggerTrue), 0.1f);
     }
+    public override void OnNetworkSpawn()
+    {
+        Debug.Log("Itemworld,NetworkSpawn");
+        base.OnNetworkSpawn();
+        if(IsClient && !isItemSet)
+        {
+            Debug.Log("Itemworld,Initialize Item");
+            item = new Item(ItemStructNetVar.Value);
+            spriteRenderer.sprite = item.GetSprite();
+            if (item.amount > 1)
+            {
+                textMeshPro.SetText(item.amount.ToString());
+            }
+            else
+            {
+                textMeshPro.SetText("");
+            }
+            isItemSet = true;
+        }
+    }
 
     private void setTriggerTrue()
     {
         IsPickupAble = true;
     }
+    public void FetchItem()
+    {
 
+    }
     public void SetItem(Item item)
     {
         this.item = item;
@@ -64,7 +88,7 @@ public class ItemWorld : NetworkBehaviour
         {
             textMeshPro.SetText("");
         }
-        
+        isItemSet = true;
     }
 
     internal Item getItem()
@@ -73,6 +97,11 @@ public class ItemWorld : NetworkBehaviour
     }
 
     internal void DestroySelf()
+    {
+        DestroyObjectServerRpc();
+    }
+    [ServerRpc(RequireOwnership =false)]
+    private void DestroyObjectServerRpc()
     {
         Destroy(gameObject);
     }

@@ -46,10 +46,10 @@ public class Inventory
 
         MovementSpeed = BaseMovementSpeed + level * MovementSpeedModifier;
 
-        AddItem(new Item { itemType = Item.ItemType.AR, amount = 1 });
-        AddItem(new Item { itemType = Item.ItemType.HealthPotion, amount = 5 });
-        AddItem(new Item { itemType = Item.ItemType.Body, amount = 1 });
-        AddItem(new Item { itemType = Item.ItemType.Head, amount = 1 });
+        AddItem(new Item { itemType = ItemType.AR, amount = 1 });
+        AddItem(new Item { itemType = ItemType.HealthPotion, amount = 5 });
+        AddItem(new Item { itemType = ItemType.Body, amount = 1 });
+        AddItem(new Item { itemType = ItemType.Head, amount = 1 });
 
         Debug.Log("Init inventory");
     }
@@ -92,7 +92,7 @@ public class Inventory
     // INVENTORY
     public void AddItem(Item item)
     {
-        if(item.itemType == Item.ItemType.Xp)
+        if(item.itemType == ItemType.Xp)
         {
             ReceiveXp(item.amount);
             return;
@@ -118,8 +118,11 @@ public class Inventory
         }
         ItemListChanged?.Invoke(this, EventArgs.Empty);
     }
-
-    public void RemoveItem(Item item)
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="onlyOne"> Only matters if the item is Stackable.</param>
+    public void RemoveItem(Item item, bool onlyOne = true)
     {
         if (item.IsStackable())
         {
@@ -128,7 +131,13 @@ public class Inventory
             {
                 if (item.itemType == inventoryItem.itemType)
                 {
-                    inventoryItem.amount -= 1;
+                    if (onlyOne)
+                    {
+                        inventoryItem.amount -= 1;
+                    } else
+                    {
+                        inventoryItem.amount -= item.amount;
+                    }
                     itemInInventory = inventoryItem;
                 }
             }
@@ -169,9 +178,9 @@ public class Inventory
     {
         switch (item.itemType)
         {
-            case Item.ItemType.Pistol:
-            case Item.ItemType.AR:
-            case Item.ItemType.RocketLauncher:
+            case ItemType.Pistol:
+            case ItemType.AR:
+            case ItemType.RocketLauncher:
                 if(Weapon == null)
                 {
                     Weapon = item;
@@ -186,7 +195,7 @@ public class Inventory
                 ItemListChanged?.Invoke(this, EventArgs.Empty);
                 ClothesChanged?.Invoke(this, EventArgs.Empty);
                 break;
-            case Item.ItemType.Head:
+            case ItemType.Head:
                 if (Helmet == null)
                 {
                     Helmet = item;
@@ -202,7 +211,7 @@ public class Inventory
                 ItemListChanged?.Invoke(this, EventArgs.Empty);
                 ClothesChanged?.Invoke(this, EventArgs.Empty);
                 break;
-            case Item.ItemType.Body:
+            case ItemType.Body:
                 if (Armor == null)
                 {
                     Armor = item;
@@ -227,9 +236,9 @@ public class Inventory
         if (item == null) return;
         switch (item.itemType)
         {
-            case Item.ItemType.Pistol:
-            case Item.ItemType.AR:
-            case Item.ItemType.RocketLauncher:
+            case ItemType.Pistol:
+            case ItemType.AR:
+            case ItemType.RocketLauncher:
                 if (Weapon == null)
                 {
                     return;
@@ -244,7 +253,7 @@ public class Inventory
                 ItemListChanged?.Invoke(this, EventArgs.Empty);
                 ClothesChanged?.Invoke(this, EventArgs.Empty);
                 break;
-            case Item.ItemType.Head:
+            case ItemType.Head:
                 if (Helmet == null)
                 {
                     return;
@@ -259,7 +268,7 @@ public class Inventory
                 ItemListChanged?.Invoke(this, EventArgs.Empty);
                 ClothesChanged?.Invoke(this, EventArgs.Empty);
                 break;
-            case Item.ItemType.Body:
+            case ItemType.Body:
                 if (Armor == null)
                 {
                     return;

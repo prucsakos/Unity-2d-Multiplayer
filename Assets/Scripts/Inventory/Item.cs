@@ -4,9 +4,6 @@ using UnityEngine;
 using System;
 using Unity.Netcode;
 
-[Serializable]
-public class Item : INetworkSerializable
-{
     public enum ItemType 
     {
         Pistol,
@@ -26,15 +23,28 @@ public class Item : INetworkSerializable
         Legendary
     }
 
+public class Item 
+{
+
     public ItemType itemType;
     public ItemTier itemTier;
     public int amount;
 
-    public void NetworkSerialize<T>(BufferSerializer<T> serializer) where T : IReaderWriter
+    public Item()
     {
-        serializer.SerializeValue(ref itemType);
-        serializer.SerializeValue(ref itemTier);
-        serializer.SerializeValue(ref amount);
+
+    }
+    public Item(ItemType itype, ItemTier itier, int am)
+    {
+        this.itemType = itype;
+        this.itemTier = itier;
+        this.amount = am;
+    }
+    public Item(ItemStructNetcode isn)
+    {
+        this.itemType = isn.itemType;
+        this.itemTier = isn.itemTier;
+        this.amount = isn.amount;
     }
     public Sprite GetSprite()
     {

@@ -228,32 +228,40 @@ public class PlayerController : NetworkBehaviour
     {
         switch (item.itemType)
         {
-            case Item.ItemType.HealthPotion:
+            case ItemType.HealthPotion:
                 inventory.RemoveItem(new Item { itemType = item.itemType, amount = 1 });
                 break;
-            case Item.ItemType.Coin:
+            case ItemType.Coin:
                 break;
-            case Item.ItemType.Pistol:
-            case Item.ItemType.AR:
-            case Item.ItemType.RocketLauncher:
-            case Item.ItemType.Head:
-            case Item.ItemType.Body:
+            case ItemType.Pistol:
+            case ItemType.AR:
+            case ItemType.RocketLauncher:
+            case ItemType.Head:
+            case ItemType.Body:
                 inventory.EquipItem(item);
                 break;
             default:
                 break;
         }
     }
-    public void DropItem(Vector3 dropPos, Vector3 direction, Item item)
+    public void DropItem(Vector3 dropPos, Vector3 direction, Item item, bool onlyOne = true)
     {
-
+        ItemStructNetcode itemStruct = new ItemStructNetcode();
+        itemStruct.SetStruct(item);
+        if (onlyOne)
+        {
+            itemStruct.amount = 1;
+        }
+        DropItemServerRpc( dropPos,  direction, itemStruct);
     }
-    [ServerRpc]
-    public void DropItemServerRpc(Vector3 dropPos, Vector3 direction, Item item)
+    [ServerRpc(RequireOwnership =false)]
+    public void DropItemServerRpc(Vector3 dropPos, Vector3 direction, ItemStructNetcode item)
     {
         Vector3 dir = new Vector3(direction.x, direction.y).normalized;
         Vector3 pos = dropPos; // + dir * 0.2f;
-        ItemWorld iw = ItemWorld.SpawnItemWorld(pos, new Item() { itemType = item.itemType, amount = 1 });
+        ItemWorld iw = ItemWorld.SpawnItemWorld(pos, new Item() { itemType = item.itemType, amount = item.amount });
         iw.GetComponent<Rigidbody2D>().AddForce(dir * 1.3f, ForceMode2D.Impulse);
+        iw.ItemStructNetVar.Value = new ItemStructNetcode(item);
+        iw.GetComponent<NetworkObject>().Spawn();
     }
 }
