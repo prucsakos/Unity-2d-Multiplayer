@@ -2,11 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using Unity.Netcode;
 
 [Serializable]
-public class Item
+public class Item : INetworkSerializable
 {
-    public enum ItemType
+    public enum ItemType 
     {
         Pistol,
         AR,
@@ -14,7 +15,8 @@ public class Item
         Head,
         Body,
         HealthPotion,
-        Coin
+        Coin,
+        Xp
     }
     public enum ItemTier
     {
@@ -25,8 +27,15 @@ public class Item
     }
 
     public ItemType itemType;
+    public ItemTier itemTier;
     public int amount;
 
+    public void NetworkSerialize<T>(BufferSerializer<T> serializer) where T : IReaderWriter
+    {
+        serializer.SerializeValue(ref itemType);
+        serializer.SerializeValue(ref itemTier);
+        serializer.SerializeValue(ref amount);
+    }
     public Sprite GetSprite()
     {
         switch(itemType)
@@ -38,6 +47,7 @@ public class Item
             case ItemType.Body:   return ItemAssets.Instance.bodySprite;
             case ItemType.HealthPotion:    return ItemAssets.Instance.healthPotionSprite;
             case ItemType.Coin:   return ItemAssets.Instance.coinSprite;
+            case ItemType.Xp: return ItemAssets.Instance.xpSprite;
             default: return ItemAssets.Instance.notFound;
         }
     }
@@ -49,6 +59,7 @@ public class Item
             default:
             case ItemType.Coin:
             case ItemType.HealthPotion:
+            case ItemType.Xp:
                 return true;
             case ItemType.Pistol:
             case ItemType.AR:
@@ -63,4 +74,5 @@ public class Item
     {
         return new Item() { amount = this.amount, itemType = this.itemType };
     }
+
 }

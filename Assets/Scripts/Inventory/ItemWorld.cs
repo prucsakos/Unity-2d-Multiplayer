@@ -3,14 +3,17 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using Unity.Netcode;
 
 /// <summary>
 /// A wrapper for Item.
 /// </summary>
-public class ItemWorld : MonoBehaviour
+public class ItemWorld : NetworkBehaviour
 {
+    // Static calls.
     public static ItemWorld SpawnItemWorld(Vector3 position ,Item item)
     {
+        
         Transform transform = Instantiate(ItemAssets.Instance.pfItemWorld, position, Quaternion.identity);
 
         ItemWorld iw = transform.GetComponent<ItemWorld>();
@@ -18,7 +21,8 @@ public class ItemWorld : MonoBehaviour
 
         return iw;
     }
-    // MAKE IT A SERVER CALL
+    
+    // 
     public static ItemWorld DropItem(Vector3 dropPos, Vector3 direction, Item item)
     {
         Vector3 dir = new Vector3(direction.x, direction.y).normalized;
@@ -35,6 +39,7 @@ public class ItemWorld : MonoBehaviour
 
     private void Awake()
     {
+        
         spriteRenderer = GetComponent<SpriteRenderer>();
 
         textMeshPro = transform.Find("amountText").GetComponent<TextMeshPro>();
@@ -79,5 +84,5 @@ public class ItemWorld : MonoBehaviour
             GetComponent<Rigidbody2D>().velocity = Vector2.zero;
         }
     }
-    
+
 }

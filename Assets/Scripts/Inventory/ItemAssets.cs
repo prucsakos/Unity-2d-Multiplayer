@@ -20,6 +20,7 @@ public class ItemAssets : MonoBehaviour
     public Sprite bodySprite;
     public Sprite healthPotionSprite;
     public Sprite coinSprite;
+    public Sprite xpSprite;
     public Sprite notFound;
 
     public Sprite emptyGunSlot;

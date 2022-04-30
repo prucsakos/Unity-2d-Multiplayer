@@ -20,12 +20,10 @@ public class PlayerController : NetworkBehaviour
     public Camera cam;
     public Inventory inventory;
     [SerializeField] public UIInventory uiInventory;
+    [SerializeField] public UIXpBar UiXpBar;
     public bool isGUIOpened = false;
 
     public bool canFire = true;
-
-    //weapon traits    legyen struktúra, paraméterben adódjon át Instanciate()-nak és Rpc-knek.
-    //  weapong trait - serialized, szerver változók. 
     public float fireRate = 0.1f;
     public int bulletDmg = 1;
     public float bulletVelocity = 3f;
@@ -46,11 +44,8 @@ public class PlayerController : NetworkBehaviour
         uiInventory.SetInventory(inventory);
         uiInventory.gameObject.SetActive(false);
         uiInventory.SetPlayer(this);
+        UiXpBar.setXpBar(inventory);
 
-
-
-        // test
-        ItemWorld.SpawnItemWorld(transform.position, new Item { itemType = Item.ItemType.RocketLauncher, amount = 1 });
     }
 
 
@@ -110,7 +105,17 @@ public class PlayerController : NetworkBehaviour
         float y = Input.GetAxisRaw("Vertical");
         if (x != 0f || y != 0f)
         {
-            OnMove(x, y);
+            float ms = inventory.MovementSpeed;
+            if (x !=0f && y == 0f)
+            {
+                OnMove(x*ms , 0f);
+            } else if(x == 0f && y != 0f)
+            {
+                OnMove(0f , y*ms);
+            } else
+            {
+                OnMove(x*ms , y*ms);
+            }
         }
     }
     private void updateAngle()
@@ -125,6 +130,8 @@ public class PlayerController : NetworkBehaviour
     // Call server rpc. Instanciate (Spawn) bullet with Netw. Transform Obj..  Check collision on server only.
     internal void OnFired()
     {
+
+
         if (canFire)
         {
             ShootServerRpc(transform.position, lookAngle, NetworkObject.NetworkObjectId);
@@ -181,6 +188,8 @@ public class PlayerController : NetworkBehaviour
         moveDelta = new Vector3(x, y, 0);
         var _transfrom = PlayerObject.transform;
 
+        // Changin direction
+        /*
         if (moveDelta.x > 0)
         {
             _transfrom.localScale = Vector3.one;
@@ -189,7 +198,7 @@ public class PlayerController : NetworkBehaviour
         {
             _transfrom.localScale = new Vector3(-1, 1, 1);
         }
-
+        */
 
 
 
@@ -234,5 +243,17 @@ public class PlayerController : NetworkBehaviour
             default:
                 break;
         }
+    }
+    public void DropItem(Vector3 dropPos, Vector3 direction, Item item)
+    {
+
+    }
+    [ServerRpc]
+    public void DropItemServerRpc(Vector3 dropPos, Vector3 direction, Item item)
+    {
+        Vector3 dir = new Vector3(direction.x, direction.y).normalized;
+        Vector3 pos = dropPos; // + dir * 0.2f;
+        ItemWorld iw = ItemWorld.SpawnItemWorld(pos, new Item() { itemType = item.itemType, amount = 1 });
+        iw.GetComponent<Rigidbody2D>().AddForce(dir * 1.3f, ForceMode2D.Impulse);
     }
 }
