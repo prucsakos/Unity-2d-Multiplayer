@@ -1084,9 +1084,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6aef28d31c7558a448326d4608336552, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  item:
-    itemType: 0
-    amount: 0
   canvas: {fileID: 59133544}
   imRect: {fileID: 1364520133}
   activeRect: {fileID: 1787826198953507970}
@@ -1102,9 +1099,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8074a3689be201d40af4a9ce7d3d7782, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  item:
-    itemType: 0
-    amount: 0
   state: 0
   isSet: 0
 --- !u!1 &161151599195199166
@@ -1664,9 +1658,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6aef28d31c7558a448326d4608336552, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  item:
-    itemType: 0
-    amount: 0
   canvas: {fileID: 0}
   imRect: {fileID: 0}
   activeRect: {fileID: 0}
@@ -3619,7 +3610,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 1.1
+  orthographic size: 1
   m_Depth: 0
   m_CullingMask:
     serializedVersion: 2
@@ -4060,9 +4051,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6aef28d31c7558a448326d4608336552, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  item:
-    itemType: 0
-    amount: 0
   canvas: {fileID: 59133544}
   imRect: {fileID: 2490029976513699348}
   activeRect: {fileID: 1787826198953507970}
@@ -4078,9 +4066,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8074a3689be201d40af4a9ce7d3d7782, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  item:
-    itemType: 0
-    amount: 0
   state: 0
   isSet: 0
 --- !u!114 &1850422116988550588
@@ -5310,9 +5295,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6aef28d31c7558a448326d4608336552, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  item:
-    itemType: 0
-    amount: 0
   canvas: {fileID: 59133544}
   imRect: {fileID: 1359832938257633462}
   activeRect: {fileID: 1787826198953507970}
@@ -5328,9 +5310,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8074a3689be201d40af4a9ce7d3d7782, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  item:
-    itemType: 0
-    amount: 0
   state: 0
   isSet: 0
 --- !u!114 &7417737671875474981
@@ -5543,9 +5522,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6aef28d31c7558a448326d4608336552, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  item:
-    itemType: 0
-    amount: 0
   canvas: {fileID: 59133544}
   imRect: {fileID: 1662063959074152759}
   activeRect: {fileID: 1787826198953507970}
@@ -5561,9 +5537,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8074a3689be201d40af4a9ce7d3d7782, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  item:
-    itemType: 0
-    amount: 0
   state: 0
   isSet: 0
 --- !u!114 &6399544830137314657

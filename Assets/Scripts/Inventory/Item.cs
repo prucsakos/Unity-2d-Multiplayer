@@ -25,6 +25,36 @@ using Unity.Netcode;
 
 public class Item 
 {
+    public static Item GetRandomEquipment()
+    {
+        float tierRoll = UnityEngine.Random.Range(0f, 1f);
+        float typeRoll = UnityEngine.Random.Range(0f, 1f);
+        ItemTier itier;
+        ItemType itype;
+        int ind = 0;
+        while(tierRoll > TierChances[ind])
+        {
+            ind++;
+        }
+        itier = TierNames[ind];
+        ind = 0;
+        while (typeRoll > TypeChances[ind])
+        {
+            ind++;
+        }
+        itype = TypeNames[ind];
+
+        return new Item(itype, itier, 1);
+    }
+
+    public static float[] TierChances = new float[] { 0.4f, 0.7f, 0.9f, 1f };
+    public static ItemTier[] TierNames = new ItemTier[] { ItemTier.Common, ItemTier.Good, ItemTier.Rare, ItemTier.Legendary };
+
+    public static float[] TypeChances = new float[] { 0.25f, 0.35f, 0.5f ,0.75f, 1f };
+    public static ItemType[] TypeNames = new ItemType[] { ItemType.Pistol, ItemType.AR, ItemType.RocketLauncher, ItemType.Head, ItemType.Body  };
+
+    public static float ChanceForNpcItemDrop = 0.3f;
+    public static float ChanceForNpcHealthPotion = 0.5f;
 
     public ItemType itemType;
     public ItemTier itemTier;

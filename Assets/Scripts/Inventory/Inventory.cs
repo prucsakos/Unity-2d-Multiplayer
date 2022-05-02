@@ -8,9 +8,9 @@ public class Inventory
 {
 
     public event EventHandler ItemListChanged;
+    public event EventHandler ClothesChanged;
     public event EventHandler XpChanged;
     public event EventHandler LevelUp;
-    public event EventHandler ClothesChanged;
 
 
     private List<Item> itemList;
@@ -46,12 +46,17 @@ public class Inventory
 
         MovementSpeed = BaseMovementSpeed + level * MovementSpeedModifier;
 
-        AddItem(new Item { itemType = ItemType.AR, amount = 1 });
-        AddItem(new Item { itemType = ItemType.HealthPotion, amount = 5 });
-        AddItem(new Item { itemType = ItemType.Body, amount = 1 });
-        AddItem(new Item { itemType = ItemType.Head, amount = 1 });
+        AddItem(new Item() { itemType = ItemType.Pistol, itemTier = ItemTier.Common, amount = 1 });
 
         Debug.Log("Init inventory");
+    }
+    public void ResetInventory()
+    {
+        Helmet = null;
+        Armor = null;
+        Weapon = null;
+        itemList = new List<Item>();
+        AddItem(new Item() { itemType=ItemType.Pistol, itemTier=ItemTier.Common, amount=1 });
     }
 
     // XP

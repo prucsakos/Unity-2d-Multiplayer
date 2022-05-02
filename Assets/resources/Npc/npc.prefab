@@ -379,6 +379,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   uiHealthBar: {fileID: 2492589697252524730}
+  NetHP:
+    m_InternalValue: 0
   HP: 0
   MaxHP: 10
 --- !u!114 &2069397689711756186
@@ -422,15 +424,18 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 0
   destinationReachedMargin: 0.08
-  patrolVelocity: 0.1
+  ChaseSpeed: 0.4
+  PatrolSpeed: 0.2
+  TimeBetweenAttacks: 0.3
+  BulletVelocity: 1
+  WeaponDamage: 2
+  IsBotParamsSet: 0
   walkPoint: {x: 0, y: 0, z: 0}
   walkPointSet: 0
   walkPointRange: 1
-  chaseVelocity: 0.3
-  timeBetweenAttacks: 0.8
   bullet: {fileID: 4195894578845888169, guid: e40c175d80adf5740b768aea1150d612, type: 3}
-  sightRange: 1
-  attackRange: 0.5
+  sightRange: 1.2
+  attackRange: 0.6
   playerInSightRange: 0
   playerInAttackRange: 0
 --- !u!195 &711980713

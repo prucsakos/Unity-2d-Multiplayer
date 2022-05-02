@@ -6,6 +6,8 @@ using Unity.Netcode;
 
 public class PlayerController : NetworkBehaviour
 {
+    public static string[] BLOCKING_LAYER_NAMES = new string[] { "AI", "Actor", "Blocking" };
+
     public GameObject PlayerObject;
     public GameObject BulletPrefab;
     public GameObject GunPrefab;
@@ -16,6 +18,8 @@ public class PlayerController : NetworkBehaviour
     private BoxCollider2D boxCollider;
     private Vector3 moveDelta;
     private RaycastHit2D hit;
+
+    private Damageable damageable;
 
     public Camera cam;
     public Inventory inventory;
@@ -46,8 +50,14 @@ public class PlayerController : NetworkBehaviour
         uiInventory.SetPlayer(this);
         UiXpBar.setXpBar(inventory);
 
-    }
+        damageable = GetComponent<Damageable>();
 
+        Vector3 spawnpos = GameManager.Instance.SpawnInfo.SpawnLocation;
+        Vector3 ppos = transform.position;
+        transform.Translate(spawnpos - ppos);
+
+    }
+    
 
     private void FixedUpdate()
     {
@@ -69,7 +79,6 @@ public class PlayerController : NetworkBehaviour
         }
         
     }
-
     private void CheckInventory()
     {
         if (Input.GetKey(KeyCode.Tab))
@@ -202,12 +211,12 @@ public class PlayerController : NetworkBehaviour
 
 
 
-        hit = Physics2D.BoxCast(_transfrom.position, boxCollider.size, 0, new Vector2(moveDelta.x, 0), Mathf.Abs(moveDelta.x * Time.deltaTime), LayerMask.GetMask("AI", "Actor", "Blocking"));
+        hit = Physics2D.BoxCast(_transfrom.position, boxCollider.size, 0, new Vector2(moveDelta.x, 0), Mathf.Abs(moveDelta.x * Time.deltaTime), LayerMask.GetMask(BLOCKING_LAYER_NAMES));
         if (hit.collider == null)
         {
             transform.Translate(moveDelta.x * Time.deltaTime, 0f, 0f);
         }
-        hit = Physics2D.BoxCast(_transfrom.position, boxCollider.size, 0, new Vector2(0, moveDelta.y), Mathf.Abs(moveDelta.y * Time.deltaTime), LayerMask.GetMask("AI", "Actor", "Blocking"));
+        hit = Physics2D.BoxCast(_transfrom.position, boxCollider.size, 0, new Vector2(0, moveDelta.y), Mathf.Abs(moveDelta.y * Time.deltaTime), LayerMask.GetMask(BLOCKING_LAYER_NAMES));
         if (hit.collider == null)
         {
             transform.Translate(0f, moveDelta.y * Time.deltaTime, 0f);
@@ -230,6 +239,7 @@ public class PlayerController : NetworkBehaviour
         {
             case ItemType.HealthPotion:
                 inventory.RemoveItem(new Item { itemType = item.itemType, amount = 1 });
+                damageable.Regenerate(3);
                 break;
             case ItemType.Coin:
                 break;
@@ -263,5 +273,14 @@ public class PlayerController : NetworkBehaviour
         iw.GetComponent<Rigidbody2D>().AddForce(dir * 1.3f, ForceMode2D.Impulse);
         iw.ItemStructNetVar.Value = new ItemStructNetcode(item);
         iw.GetComponent<NetworkObject>().Spawn();
+    }
+
+    public void ResetCharacter()
+    {
+        Vector3 spawnpos = GameManager.Instance.SpawnInfo.SpawnLocation;
+        Vector3 ppos = transform.position;
+        transform.Translate(spawnpos - ppos);
+
+        inventory.ResetInventory();
     }
 }

@@ -14,6 +14,7 @@ public class Damageable : NetworkBehaviour
 {
 
     public event EventHandler HpChanged;
+    public event EventHandler Died;
 
     [SerializeField] public UIHealthBar uiHealthBar;
 
@@ -22,15 +23,28 @@ public class Damageable : NetworkBehaviour
     public int MaxHP = 100;
     private void Start()
     {
+        Died += OnDied;
         uiHealthBar.setDamagable(GetComponent<Damageable>());
         // ONNETWORKSPAWN
     }
+
+    private void OnDied(object sender, EventArgs e)
+    {
+        Debug.Log("Meglat a lkiens");
+        if(TryGetComponent<PlayerController>(out PlayerController pc))
+        {
+            pc.inventory.ResetInventory();
+        }
+        
+    }
+
     public override void OnNetworkSpawn()
     {
         Debug.Log("ONNETWORKS");
         NetHP.OnValueChanged += OnNetHpChanged;
-        if (IsServer)
+        if (IsServer || IsHost)
         {
+            GameManager.Instance.PlayerJoined(this);
             NetHP.Value = MaxHP;
             HP = MaxHP;
             HpChanged?.Invoke(this, EventArgs.Empty);
@@ -56,7 +70,22 @@ public class Damageable : NetworkBehaviour
     {
         HP = NetHP.Value;
         HpChanged?.Invoke(this, EventArgs.Empty);
+        if(HP <= 0)
+        {
+            if (IsLocalPlayer)
+            {
+                Debug.Log("MEGHALTAM");
+                PlayerController pc = transform.GetComponent<PlayerController>();
+                pc.ResetCharacter();
+                RequestMaxHPServerRpc();
+            }
+        }
 
+    }
+    [ServerRpc]
+    private void RequestMaxHPServerRpc()
+    {
+        NetHP.Value = MaxHP;
     }
     /*
     [ServerRpc(RequireOwnership =false)]
@@ -85,9 +114,10 @@ public class Damageable : NetworkBehaviour
         NetHP.Value = HP;
         NetHP.OnValueChanged?.Invoke(0,0);
         HpChanged?.Invoke(this, EventArgs.Empty);
-        if (IsServer && HP <= 0)
+        if (HP <= 0)
         {
-            Die();
+            // Server call
+            Died?.Invoke(this, EventArgs.Empty);
         }
     }
 
@@ -103,5 +133,21 @@ public class Damageable : NetworkBehaviour
     public int GetMaxHP()
     {
         return MaxHP;
+    }
+
+    public void Regenerate(int am)
+    {
+        RegenerateServerRpc(am);
+    }
+    [ServerRpc]
+    public void RegenerateServerRpc(int am)
+    {
+        if(NetHP.Value + am > MaxHP)
+        {
+            NetHP.Value = MaxHP;
+        } else
+        {
+            NetHP.Value += am;
+        }
     }
 }

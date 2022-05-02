@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 using Unity.Netcode;
-
 public class EnemyAI : NetworkBehaviour
 {
 
@@ -16,16 +15,20 @@ public class EnemyAI : NetworkBehaviour
     public LayerMask whatIsGround, whatIsPlayer, whatIsBlocking;
     public float destinationReachedMargin = 0.3f;
 
+    public float ChaseSpeed;
+    public float PatrolSpeed;
+    public float TimeBetweenAttacks;
+    public float BulletVelocity;
+    public int WeaponDamage;
+
+    public bool IsBotParamsSet = false;
 
     //Patroling
-    public float patrolVelocity;
     public Vector3 walkPoint;
     public bool walkPointSet;
     public float walkPointRange;
 
     //Attacking
-    public float chaseVelocity;
-    public float timeBetweenAttacks;
     bool alreadyAttacked;
     public GameObject bullet;
 
@@ -106,7 +109,7 @@ public class EnemyAI : NetworkBehaviour
 
         if (!playerInSightRange && !playerInAttackRange) {
             hasTarget = false;
-            if (agent.speed != patrolVelocity) agent.speed = patrolVelocity;
+            if (agent.speed != PatrolSpeed) agent.speed = PatrolSpeed;
             Patroling();
         } 
         else
@@ -117,7 +120,7 @@ public class EnemyAI : NetworkBehaviour
             }
             if (playerInSightRange && !playerInAttackRange)
             {
-                if (agent.speed != chaseVelocity) agent.speed = chaseVelocity;
+                if (agent.speed != ChaseSpeed) agent.speed = ChaseSpeed;
                 ChasePlayer();
             }
             if (playerInSightRange && playerInAttackRange) AttackPlayer();
@@ -183,17 +186,17 @@ public class EnemyAI : NetworkBehaviour
         if (!alreadyAttacked)
         {
             var dir = target.position - transform.position;
-            GameObject b = BulletMovement.SetupBulletInst(transform.position, dir, NetworkObjectId, bullet);
-            AttackLogicClientRpc(transform.position, dir, NetworkObjectId);
+            GameObject b = BulletMovement.SetupBulletInst(transform.position, dir, NetworkObjectId, bullet, BulletVelocity, WeaponDamage);
+            AttackLogicClientRpc(transform.position, dir, NetworkObjectId, BulletVelocity, WeaponDamage);
             alreadyAttacked = true;
-            Invoke(nameof(enableAttacked), timeBetweenAttacks);
+            Invoke(nameof(enableAttacked), TimeBetweenAttacks);
         }
     }
     [ClientRpc]
-    private void AttackLogicClientRpc(Vector3 pos, Vector3 d, ulong id)
+    private void AttackLogicClientRpc(Vector3 pos, Vector3 d, ulong id, float bulletVelocity, int weaponDamage)
     {
         if (IsHost) return;
-        BulletMovement.SetupBulletInst(pos, d, id, bullet);
+        BulletMovement.SetupBulletInst(pos, d, id, bullet, bulletVelocity, weaponDamage);
     }
     private void enableAttacked()
     {

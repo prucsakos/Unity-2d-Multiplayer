@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Tilemaps;
 
 public class ItemAssets : MonoBehaviour
 {
@@ -10,7 +11,7 @@ public class ItemAssets : MonoBehaviour
     {
         Instance = this;
     }
-
+    public Transform PlayerPrefab;
     public Transform pfItemWorld;
 
     public Sprite pistolSprite;
@@ -23,7 +24,16 @@ public class ItemAssets : MonoBehaviour
     public Sprite xpSprite;
     public Sprite notFound;
 
+    public Sprite EmptyChest;
+    public Sprite ClosedChest;
+
     public Sprite emptyGunSlot;
     public Sprite emptyHeadSlot;
     public Sprite emptyBodySlot;
+
+    // Map Tiles
+    public Transform Spawn;
+    public Transform Room1;
+    public Transform BlockingGate;
+
 }
