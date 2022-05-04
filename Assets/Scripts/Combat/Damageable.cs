@@ -74,7 +74,6 @@ public class Damageable : NetworkBehaviour
         {
             if (IsLocalPlayer)
             {
-                Debug.Log("MEGHALTAM");
                 PlayerController pc = transform.GetComponent<PlayerController>();
                 pc.ResetCharacter();
                 RequestMaxHPServerRpc();
@@ -108,8 +107,17 @@ public class Damageable : NetworkBehaviour
         
     }
 
-    public void TakeDMG(int dmg)
+    public void TakeDMG(int dmg_income)
     {
+        int dmg = dmg_income;
+        if(TryGetComponent<PlayerController>(out PlayerController pc))
+        {
+            int shield = Inventory.GetArmorFromNetStruct(pc.NetHelmet.Value, pc.NetArmor.Value);
+            dmg -= shield;
+            Debug.Log($"shield: {shield}, incoming dmg: {dmg}");
+            if (dmg < 0) dmg = 0;
+        }
+
         HP -= dmg;
         NetHP.Value = HP;
         NetHP.OnValueChanged?.Invoke(0,0);

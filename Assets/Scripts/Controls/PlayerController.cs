@@ -14,6 +14,8 @@ public class PlayerController : NetworkBehaviour
     //public GameObject UI_INV_GO;
     public Vector3 mouseDir;
     public float lookAngle;
+
+    public SpriteManager spriteManager;
     
     private BoxCollider2D boxCollider;
     private Vector3 moveDelta;
@@ -22,17 +24,111 @@ public class PlayerController : NetworkBehaviour
     private Damageable damageable;
 
     public Camera cam;
+
+    public bool IsInventoryInit = false;
     public Inventory inventory;
     [SerializeField] public UIInventory uiInventory;
     [SerializeField] public UIXpBar UiXpBar;
     public bool isGUIOpened = false;
 
+    // Networked Inventory
+    public NetworkVariable<ItemStructNetcode> NetHelmet = new NetworkVariable<ItemStructNetcode>();
+    public NetworkVariable<ItemStructNetcode> NetArmor = new NetworkVariable<ItemStructNetcode>();
+    public NetworkVariable<ItemStructNetcode> NetWeapon = new NetworkVariable<ItemStructNetcode>();
+
+    // STATS FROM INVENTORY.GetWeaponStats()
     public bool canFire = true;
+    /*
     public float fireRate = 0.1f;
     public int bulletDmg = 1;
     public float bulletVelocity = 3f;
     public float bulletRange = 3f;
-    
+    */
+
+    public override void OnNetworkSpawn()
+    {
+        base.OnNetworkSpawn();
+        NetHelmet.OnValueChanged += OnNetHelmetChanged;
+        NetArmor.OnValueChanged += OnNetArmorChanged;
+        NetWeapon.OnValueChanged += OnNetWeaponChanged;
+        if (!IsInventoryInit)
+        {
+            inventory = new Inventory(UseItem);
+            IsInventoryInit = true;
+        }
+        inventory.ClothesChanged += OnClothesChanged;
+        if(IsHost || IsServer)
+        {
+            OnClothesChanged(inventory, EventArgs.Empty);
+        }
+
+        // TODO rajz, feliratkozni event változásra
+    }
+
+    private void OnNetWeaponChanged(ItemStructNetcode previousValue, ItemStructNetcode newValue)
+    {
+        spriteManager.SetWeapon(NetWeapon.Value);
+    }
+
+    private void OnNetArmorChanged(ItemStructNetcode previousValue, ItemStructNetcode newValue)
+    {
+        spriteManager.SetArmor(NetArmor.Value);
+    }
+
+    private void OnNetHelmetChanged(ItemStructNetcode previousValue, ItemStructNetcode newValue)
+    {
+        spriteManager.SetHelmet(NetHelmet.Value);
+    }
+
+    private void OnClothesChanged(object sender, EventArgs e)
+    {
+        if (IsLocalPlayer)
+        {
+            Item hItem = inventory.getHelmet();
+            ItemStructNetcode helm;
+            if (hItem == null)
+            {
+                helm = new ItemStructNetcode();
+                helm.SetEmpty();
+            } else
+            {
+                helm = new ItemStructNetcode(hItem);
+            }
+
+            Item aItem = inventory.getArmor();
+            ItemStructNetcode arm;
+            if (aItem == null)
+            {
+                arm = new ItemStructNetcode();
+                arm.SetEmpty();
+            }
+            else
+            {
+                arm = new ItemStructNetcode(aItem);
+            }
+
+            Item wItem = inventory.getWeapon();
+            ItemStructNetcode weapon;
+            if (wItem == null)
+            {
+                weapon = new ItemStructNetcode();
+                weapon.SetEmpty();
+            }
+            else
+            {
+                weapon = new ItemStructNetcode(wItem);
+            }
+            ChangePlayerClothesServerRpc(helm, arm, weapon);
+        }
+    }
+    [ServerRpc(RequireOwnership =false)]
+    private void ChangePlayerClothesServerRpc(ItemStructNetcode helm, ItemStructNetcode arm, ItemStructNetcode weapon)
+    {
+        NetHelmet.Value = helm;
+        NetArmor.Value = arm;
+        NetWeapon.Value = weapon;
+    }
+
     void Start()
     {
         PlayerObject = gameObject;
@@ -43,8 +139,11 @@ public class PlayerController : NetworkBehaviour
         {
             GetComponentInChildren<Camera>().enabled = false;
         }
-
-        inventory = new Inventory(UseItem);
+        if (!IsInventoryInit)
+        {
+            inventory = new Inventory(UseItem);
+            IsInventoryInit = true;
+        }
         uiInventory.SetInventory(inventory);
         uiInventory.gameObject.SetActive(false);
         uiInventory.SetPlayer(this);
@@ -55,10 +154,7 @@ public class PlayerController : NetworkBehaviour
         Vector3 spawnpos = GameManager.Instance.SpawnInfo.SpawnLocation;
         Vector3 ppos = transform.position;
         transform.Translate(spawnpos - ppos);
-
     }
-    
-
     private void FixedUpdate()
     {
         if (IsLocalPlayer)
@@ -77,7 +173,6 @@ public class PlayerController : NetworkBehaviour
                 CheckMovement();
             }
         }
-        
     }
     private void CheckInventory()
     {
@@ -143,16 +238,17 @@ public class PlayerController : NetworkBehaviour
 
         if (canFire)
         {
-            ShootServerRpc(transform.position, lookAngle, NetworkObject.NetworkObjectId);
-
+            ItemWeaponStats iws = inventory.GetWeaponStats();
+            if (iws == null) return;
+            ShootServerRpc(transform.position, lookAngle, NetworkObject.NetworkObjectId, iws.WeaponDamage, iws.BulletVelocity, iws.BulletRange);
             canFire = false;
-            Invoke(nameof(AllowFire), fireRate);
+            Invoke(nameof(AllowFire), iws.TimeBetweenAttacks);
         }
     }
     [ServerRpc]
-    void ShootServerRpc(Vector3 v, float lookAngle, ulong id)
+    void ShootServerRpc(Vector3 v, float lookAngle, ulong id, int wd, float bv, float br)
     {
-        SetupBulletInst(v, lookAngle, id);
+        SetupBulletInst(v, lookAngle, id, wd, bv, br);
         /*
         var bull = SetupBulletInst(v, lookAngle);
         
@@ -161,29 +257,28 @@ public class PlayerController : NetworkBehaviour
             no.Spawn();
         }
         */
-        ShootClientRpc(v, lookAngle, id);
+        ShootClientRpc(v, lookAngle, id, wd, bv, br);
 
     }
     [ClientRpc]
-    void ShootClientRpc(Vector3 v, float lookAngle, ulong id)
+    void ShootClientRpc(Vector3 v, float lookAngle, ulong id, int wd, float bv, float br)
     {
         if (IsHost) return;
-        SetupBulletInst(v, lookAngle, id);
+        SetupBulletInst(v, lookAngle, id, wd, bv, br);
+        
     }
-    GameObject SetupBulletInst(Vector3 v, float lookAngle, ulong id)
+    GameObject SetupBulletInst(Vector3 v, float lookAngle, ulong id, int wd, float bv, float br)
     {
         GameObject go = Instantiate(BulletPrefab, gameObject.transform.position, Quaternion.identity);
         go.gameObject.transform.rotation = Quaternion.Euler(0f, 0f, lookAngle);
         // BulletMovement bm = go.AddComponent<BulletMovement>();
         BulletMovement bm = go.GetComponent<BulletMovement>();
         bm.srcObjId = id;
-        if(IsServer) Debug.Log("Szerver átadja: " + bulletVelocity.ToString());
-        else if(IsClient) Debug.Log("Cliens átadja: " + bulletVelocity.ToString());
-        bm.velocity = bulletVelocity;
-        bm.dmg = bulletDmg;
+        bm.velocity = bv;
+        bm.dmg = wd;
         
         
-        Destroy(go, bulletRange);
+        Destroy(go, br);
 
         return go;
     }
@@ -238,7 +333,7 @@ public class PlayerController : NetworkBehaviour
         switch (item.itemType)
         {
             case ItemType.HealthPotion:
-                inventory.RemoveItem(new Item { itemType = item.itemType, amount = 1 });
+                inventory.RemoveItem(item);
                 damageable.Regenerate(3);
                 break;
             case ItemType.Coin:
@@ -269,7 +364,7 @@ public class PlayerController : NetworkBehaviour
     {
         Vector3 dir = new Vector3(direction.x, direction.y).normalized;
         Vector3 pos = dropPos; // + dir * 0.2f;
-        ItemWorld iw = ItemWorld.SpawnItemWorld(pos, new Item() { itemType = item.itemType, amount = item.amount });
+        ItemWorld iw = ItemWorld.SpawnItemWorld(pos, new Item(item.itemType, item.itemTier, item.amount));
         iw.GetComponent<Rigidbody2D>().AddForce(dir * 1.3f, ForceMode2D.Impulse);
         iw.ItemStructNetVar.Value = new ItemStructNetcode(item);
         iw.GetComponent<NetworkObject>().Spawn();

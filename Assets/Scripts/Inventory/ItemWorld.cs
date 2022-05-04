@@ -27,7 +27,7 @@ public class ItemWorld : NetworkBehaviour
     {
         Vector3 dir = new Vector3(direction.x, direction.y).normalized;
         Vector3 pos = dropPos; // + dir * 0.2f;
-        ItemWorld iw = SpawnItemWorld(pos , new Item() { itemType = item.itemType, amount=1 });
+        ItemWorld iw = SpawnItemWorld(pos , item.clone());
         iw.GetComponent<Rigidbody2D>().AddForce(dir * 1.3f, ForceMode2D.Impulse);
         return iw;
     }
@@ -50,11 +50,9 @@ public class ItemWorld : NetworkBehaviour
     }
     public override void OnNetworkSpawn()
     {
-        Debug.Log("Itemworld,NetworkSpawn");
         base.OnNetworkSpawn();
-        if(IsClient && !isItemSet)
+        if(!isItemSet)
         {
-            Debug.Log("Itemworld,Initialize Item");
             item = new Item(ItemStructNetVar.Value);
             spriteRenderer.sprite = item.GetSprite();
             if (item.amount > 1)

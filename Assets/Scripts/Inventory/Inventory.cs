@@ -6,6 +6,14 @@ using UnityEngine;
 
 public class Inventory
 {
+    public static int GetArmorFromNetStruct(ItemStructNetcode helm, ItemStructNetcode arm)
+    {
+        int res = 0;
+        if (helm.isSet) res += new Item(helm).ShieldDamage;
+        if (arm.isSet) res += new Item(arm).ShieldDamage;
+        Debug.Log($"Inventory static: def: {res}");
+        return res;
+    }
 
     public event EventHandler ItemListChanged;
     public event EventHandler ClothesChanged;
@@ -24,7 +32,6 @@ public class Inventory
 
     // Character Stats
     public float MovementSpeed;
-
 
 
     // Character Item Slots
@@ -46,9 +53,11 @@ public class Inventory
 
         MovementSpeed = BaseMovementSpeed + level * MovementSpeedModifier;
 
-        AddItem(new Item() { itemType = ItemType.Pistol, itemTier = ItemTier.Common, amount = 1 });
-
-        Debug.Log("Init inventory");
+        AddItem(new Item(ItemType.Pistol, ItemTier.Common, 1));
+        AddItem(new Item(ItemType.AR, ItemTier.Legendary, 1));
+        AddItem(new Item(ItemType.RocketLauncher, ItemTier.Legendary, 1));
+        AddItem(new Item(ItemType.Head, ItemTier.Common, 1));
+        AddItem(new Item(ItemType.Body, ItemTier.Good, 1));
     }
     public void ResetInventory()
     {
@@ -56,7 +65,21 @@ public class Inventory
         Armor = null;
         Weapon = null;
         itemList = new List<Item>();
-        AddItem(new Item() { itemType=ItemType.Pistol, itemTier=ItemTier.Common, amount=1 });
+        AddItem(new Item(ItemType.Pistol, ItemTier.Common, 1));
+    }
+
+    // Character Stats
+    public int GetArmor()
+    {
+        int res = 0;
+        if (Helmet != null) res += Helmet.ShieldDamage;
+        if (Armor != null) res += Armor.ShieldDamage;
+        return res;
+    }
+    public ItemWeaponStats GetWeaponStats()
+    {
+        if (Weapon == null) return null;
+        return Weapon.WeaponStats;
     }
 
     // XP
@@ -188,12 +211,12 @@ public class Inventory
             case ItemType.RocketLauncher:
                 if(Weapon == null)
                 {
-                    Weapon = item;
+                    Weapon = item.clone();
 
                 } else
                 {
                     Item tmp = Weapon;
-                    Weapon = item;
+                    Weapon = item.clone();
                     AddItem(tmp);
                 }
                 RemoveItem(item);
@@ -203,13 +226,13 @@ public class Inventory
             case ItemType.Head:
                 if (Helmet == null)
                 {
-                    Helmet = item;
+                    Helmet = item.clone();
 
                 }
                 else
                 {
                     Item tmp = Helmet;
-                    Helmet = item;
+                    Helmet = item.clone();
                     AddItem(tmp);
                 }
                 RemoveItem(item);
@@ -219,13 +242,13 @@ public class Inventory
             case ItemType.Body:
                 if (Armor == null)
                 {
-                    Armor = item;
+                    Armor = item.clone();
 
                 }
                 else
                 {
                     Item tmp = Armor;
-                    Armor = item;
+                    Armor = item.clone();
                     AddItem(tmp);
                 }
                 RemoveItem(item);

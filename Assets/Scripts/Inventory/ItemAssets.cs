@@ -36,4 +36,33 @@ public class ItemAssets : MonoBehaviour
     public Transform Room1;
     public Transform BlockingGate;
 
+    public Sprite Character_0;
+
+    // Final Item Sprites
+    public Sprite CommonHelmet;
+    public Sprite CommonArmor;
+    public Sprite CommonPistol;
+    public Sprite CommonAR;
+    public Sprite CommonRocketLauncher;
+
+    public Sprite GoodHelmet;
+    public Sprite GoodArmor;
+    public Sprite GoodPistol;
+    public Sprite GoodAR;
+    public Sprite GoodRocketLauncher;
+
+    public Sprite RareHelmet; 
+    public Sprite RareArmor;
+    public Sprite RarePistol;
+    public Sprite RareAR;
+    public Sprite RareRocketLauncher;
+
+    public Sprite LegendaryHelmet;
+    public Sprite LegendaryArmor;
+    public Sprite LegendaryPistol;
+    public Sprite LegendaryAR;
+    public Sprite LegendaryRocketLauncher;
+
+    public Sprite EmptySprite;
+
 }

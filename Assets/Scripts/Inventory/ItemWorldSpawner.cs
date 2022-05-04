@@ -22,9 +22,9 @@ public class ItemWorldSpawner
         DropItem(Position, RandomDirection(), item);
         if (UnityEngine.Random.Range(0f, 1f) <= Item.ChanceForNpcHealthPotion)
         {
-            DropItem(Position, RandomDirection(), new Item() { itemType = ItemType.HealthPotion, amount = 1 }, false);
+            DropItem(Position, RandomDirection(), new Item(ItemType.HealthPotion, ItemTier.Common, 1), false);
         }
-        DropItem(Position, RandomDirection(), new Item() { itemType = ItemType.Xp, amount = 5 }, false);
+        DropItem(Position, RandomDirection(), new Item(ItemType.Xp, ItemTier.Common, 5), false);
     }
     public void GenerateDropForChest()
     {
@@ -32,13 +32,13 @@ public class ItemWorldSpawner
         DropItem(Position, RandomDirection(), item);
         if (UnityEngine.Random.Range(0f, 1f) <= Item.ChanceForNpcHealthPotion)
         {
-            DropItem(Position, RandomDirection(), new Item() { itemType = ItemType.HealthPotion, amount = 1 }, false);
+            DropItem(Position, RandomDirection(), new Item(ItemType.HealthPotion, ItemTier.Common, 1), false);
         }
-        DropItem(Position, RandomDirection(), new Item() { itemType = ItemType.Xp, amount = 5 }, false);
+        DropItem(Position, RandomDirection(), new Item(ItemType.Xp, ItemTier.Common, 5), false);
     }
     public void DropGold()
     {
-        DropItem(Position, RandomDirection(), new Item() { itemType = ItemType.Coin, amount = 5 }, false);
+        DropItem(Position, RandomDirection(), new Item(ItemType.Coin, ItemTier.Common, 5), false);
     }
     private void DropItem(Vector3 dropPos, Vector3 direction, Item item, bool onlyOne = true)
     {
@@ -55,7 +55,7 @@ public class ItemWorldSpawner
     {
         Vector3 dir = new Vector3(direction.x, direction.y).normalized;
         Vector3 pos = dropPos; // + dir * 0.2f;
-        ItemWorld iw = ItemWorld.SpawnItemWorld(pos, new Item() { itemType = item.itemType, amount = item.amount });
+        ItemWorld iw = ItemWorld.SpawnItemWorld(pos, new Item(item.itemType, ItemTier.Common, item.amount));
         iw.GetComponent<Rigidbody2D>().AddForce(dir * 1.3f, ForceMode2D.Impulse);
         iw.ItemStructNetVar.Value = new ItemStructNetcode(item);
         iw.GetComponent<NetworkObject>().Spawn();

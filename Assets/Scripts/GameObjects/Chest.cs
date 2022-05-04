@@ -8,7 +8,7 @@ public class Chest : NetworkBehaviour
 {
     public SpriteRenderer sr;
     public Collider2D cd;
-    public bool isOpened = false;
+    public NetworkVariable<bool> isOpened = new NetworkVariable<bool>(false);
 
     private void Start()
     {
@@ -19,16 +19,34 @@ public class Chest : NetworkBehaviour
     public override void OnNetworkSpawn()
     {
         base.OnNetworkSpawn();
+        isOpened.OnValueChanged += OnIsOpenedChanged;
+        if (isOpened.Value)
+        {
+            sr.sprite = ItemAssets.Instance.EmptyChest;
+        }
+        else
+        {
+            sr.sprite = ItemAssets.Instance.ClosedChest;
+        }
     }
+
+    private void OnIsOpenedChanged(bool previousValue, bool newValue)
+    {
+        if (isOpened.Value)
+        {
+            sr.sprite = ItemAssets.Instance.EmptyChest;
+        } else
+        {
+            sr.sprite = ItemAssets.Instance.ClosedChest;
+        }
+    }
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        Debug.Log("COLLISION HAPPEND");
-        if (IsHost && !isOpened)
+        if (IsHost && !isOpened.Value)
         {
-            Debug.Log("This is host 000");
             if(collision.GetComponent<PlayerController>() != null)
             {
-                Debug.Log("Found player");
                 OpenChestServerRpc();
             }
         }
@@ -36,15 +54,13 @@ public class Chest : NetworkBehaviour
     [ServerRpc]
     private void OpenChestServerRpc()
     {
-        isOpened = true;
+        isOpened.Value = true;
         // spawn items
         ItemWorldSpawner iws = new ItemWorldSpawner(transform.position);
         iws.GenerateDropForChest();
         iws.DropGold();
-
-
-        OpenChestClientRpc();
     }
+
     [ClientRpc]
     private void OpenChestClientRpc()
     {

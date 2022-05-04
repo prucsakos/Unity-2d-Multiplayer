@@ -125,6 +125,7 @@ public class UIInventory : MonoBehaviour
             Image im = itemSRT.Find("Image").GetComponent<Image>();
             im.sprite = item.GetSprite();
             TextMeshProUGUI UItext = itemSRT.Find("amountText").GetComponent<TextMeshProUGUI>();
+            UItext.alpha = 1f;
             if(item.amount > 1)
             {
                 UItext.SetText(item.amount.ToString());

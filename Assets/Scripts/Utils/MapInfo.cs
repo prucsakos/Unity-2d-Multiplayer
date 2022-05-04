@@ -25,7 +25,6 @@ public class MapInfo
         MetaDataObject = map;
         Transform typeo = map.transform.Find("Type");
         string maptype = typeo.GetChild(0).gameObject.name;
-        Debug.Log($"MapType: {maptype}");
 
         switch (maptype)
         {
