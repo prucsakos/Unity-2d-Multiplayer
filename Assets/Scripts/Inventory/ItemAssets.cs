@@ -10,6 +10,8 @@ public class ItemAssets : MonoBehaviour
     private void Awake()
     {
         Instance = this;
+        SimpleRoomList = new Transform[] { Room1, Room2, Room3 };
+        SimpleEnemySprites = new Sprite[] { Enemy1, Enemy2, Enemy3, Enemy4, Enemy5, Enemy6, Enemy7, Enemy8 };
     }
     public Transform PlayerPrefab;
     public Transform pfItemWorld;
@@ -34,7 +36,13 @@ public class ItemAssets : MonoBehaviour
     // Map Tiles
     public Transform Spawn;
     public Transform Room1;
+    public Transform Room2;
+    public Transform Room3;
+    public Transform BossRoom;
+    public Transform[] SimpleRoomList;
     public Transform BlockingGate;
+
+    public Sprite EmptySprite;
 
     public Sprite Character_0;
 
@@ -63,6 +71,34 @@ public class ItemAssets : MonoBehaviour
     public Sprite LegendaryAR;
     public Sprite LegendaryRocketLauncher;
 
-    public Sprite EmptySprite;
+    // Item Icon Sprites
+    public Sprite CommonHelmetIcon;
+    public Sprite GoodHelmetIcon;
+    public Sprite RareHelmetIcon;
+    public Sprite LegendaryHelmetIcon;
+    public Sprite CommonArmorIcon;
+    public Sprite GoodArmorIcon;
+    public Sprite RareArmorIcon;
+    public Sprite LegendaryArmorIcon;
+
+    // depracated
+    public Sprite SimplePistolIcon;
+    public Sprite SimpleArIcon;
+    public Sprite SimpleRocketlauncherIcon;
+
+
+    // Simple Enemies and Boss
+    public Sprite Enemy1;
+    public Sprite Enemy2;
+    public Sprite Enemy3;
+    public Sprite Enemy4;
+    public Sprite Enemy5;
+    public Sprite Enemy6;
+    public Sprite Enemy7;
+    public Sprite Enemy8;
+    public Sprite[] SimpleEnemySprites;
+
+    public Sprite BossSprite;
+
 
 }

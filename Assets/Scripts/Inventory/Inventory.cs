@@ -53,11 +53,7 @@ public class Inventory
 
         MovementSpeed = BaseMovementSpeed + level * MovementSpeedModifier;
 
-        AddItem(new Item(ItemType.Pistol, ItemTier.Common, 1));
-        AddItem(new Item(ItemType.AR, ItemTier.Legendary, 1));
-        AddItem(new Item(ItemType.RocketLauncher, ItemTier.Legendary, 1));
-        AddItem(new Item(ItemType.Head, ItemTier.Common, 1));
-        AddItem(new Item(ItemType.Body, ItemTier.Good, 1));
+        ResetInventory();
     }
     public void ResetInventory()
     {
@@ -65,7 +61,11 @@ public class Inventory
         Armor = null;
         Weapon = null;
         itemList = new List<Item>();
-        AddItem(new Item(ItemType.Pistol, ItemTier.Common, 1));
+
+        AddItem(new Item(ItemType.Pistol, ItemTier.Good, 1));
+
+        ClothesChanged?.Invoke(this, EventArgs.Empty);
+        ItemListChanged?.Invoke(this, EventArgs.Empty);
     }
 
     // Character Stats

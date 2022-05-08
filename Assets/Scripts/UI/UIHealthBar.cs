@@ -35,12 +35,13 @@ public class UIHealthBar : MonoBehaviour
         this.damage = damage;
         slider.maxValue = damage.GetMaxHP();
         slider.value = damage.GetHP();
-        damage.HpChanged += OnDmgChanged;
+        damage.HpChanged += OnHpChanged;
         fill.color = gradient.Evaluate(slider.normalizedValue);
     }
 
-    private void OnDmgChanged(object sender, EventArgs e)
+    private void OnHpChanged(object sender, EventArgs e)
     {
+        slider.maxValue = damage.GetMaxHP();
         slider.value = damage.GetHP();
         fill.color = gradient.Evaluate(slider.normalizedValue);
     }

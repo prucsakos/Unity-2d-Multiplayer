@@ -9,6 +9,8 @@ public class GameManager : NetworkBehaviour
 {
     public static GameManager Instance;
 
+    public event EventHandler LevelChanged;
+
     public static int[] EnemyCountPerLevel = new int[] { 2, 4, 6, 6 };
 
     [SerializeField] public GameObject NpcHolderGameobject;
@@ -18,13 +20,16 @@ public class GameManager : NetworkBehaviour
     [SerializeField] public GameObject MapHolder;
     [SerializeField] public GameObject SpawnTile;
     [SerializeField] public NavMeshSurface2d NavMeshBuilder;
+
     public MapInfo SpawnInfo;
+
     public Transform ActiveBlockingGate;
     public MapInfo ActiveBlockingGateInfo;
+
     public Transform ActiveMap;
     public MapInfo ActiveMapInfo;
 
-    public int level = 0;
+    public int level = 1;
     public bool IsRoundGoing = false;
 
     private List<EnemyAI> enemies;
@@ -56,7 +61,8 @@ public class GameManager : NetworkBehaviour
     private void OnEnemyDied(object sender, EventArgs e)
     {
         Damageable damageable = (Damageable)sender;
-        enemies.Remove(damageable.GetComponent<EnemyAI>());
+        enemies.Remove(damageable.transform.Find("Script").GetComponent<EnemyAI>());
+        Debug.Log($"Ellenfél meghalt, maradt: {enemies.Count}");
 
         damageable.Died -= OnEnemyDied;
         // SPAWN LOOT
@@ -73,6 +79,7 @@ public class GameManager : NetworkBehaviour
 
     private void StartRound()
     {
+        bool isBossRound = false;
         if (IsRoundGoing) return;
         IsRoundGoing = true;
         if(level == 0)
@@ -80,10 +87,12 @@ public class GameManager : NetworkBehaviour
             InitFirstMap();
         } else
         {
-            InitNextMap();
+            if (level % 4 == 0) isBossRound = true;
+            InitNextMap(isBossRound);
         }
-        SpawnEnemies();
+        SpawnEnemies(isBossRound);
         level += 1;
+        LevelChanged?.Invoke(this, EventArgs.Empty);
     }
     private void InitFirstMap()
     {
@@ -108,11 +117,20 @@ public class GameManager : NetworkBehaviour
 
         NavMeshBuilder.BuildNavMesh();
     }
-    private void InitNextMap()
+    private void InitNextMap(bool isBossRound)
     {
         Destroy(ActiveBlockingGate.gameObject);
 
-        GameObject ArenaMap = ItemAssets.Instance.Room1.gameObject;
+        GameObject ArenaMap;
+        if (isBossRound)
+        {
+        ArenaMap = ItemAssets.Instance.BossRoom.gameObject;
+        }else
+        {
+            int mapind =  UnityEngine.Random.Range(0, ItemAssets.Instance.SimpleRoomList.Length);
+            ArenaMap = ItemAssets.Instance.SimpleRoomList[mapind].gameObject;
+        }
+
         MapInfo mi_room = new MapInfo(ArenaMap.transform.Find("Metadata").gameObject);
         Vector3 arenaPos = ArenaMap.transform.position;
         Vector3 beginingPos = mi_room.Begining;
@@ -132,24 +150,56 @@ public class GameManager : NetworkBehaviour
 
         NavMeshBuilder.BuildNavMesh();
     }
-    private void SpawnEnemies()
+    private void SpawnEnemies(bool isBossRound)
     {
-        int EnemiesToSpawn = GetEnemyCount(level);
+        int EnemiesToSpawn = !isBossRound ? UnityEngine.Random.Range(2, (int)(level/3) + 3) : 1;
+
         int SpawnerCount = ActiveMapInfo.EnemySpawnLocations.Count;
         while(EnemiesToSpawn > 0)
         {
-            enemies.Add(SpawnNpc(ActiveMapInfo.EnemySpawnLocations[EnemiesToSpawn%SpawnerCount]));
+            enemies.Add(SpawnNpc(ActiveMapInfo.EnemySpawnLocations[EnemiesToSpawn%SpawnerCount], level, isBossRound));
             EnemiesToSpawn -= 1;
         }
     }
-    private EnemyAI SpawnNpc(Vector3 SpawnPos)
+    private EnemyAI SpawnNpc(Vector3 SpawnPos, int level, bool isBoss)
     {
         GameObject npc = Instantiate(npcPrefab, SpawnPos, Quaternion.identity, NpcHolderGameobject.transform);
-        EnemyAI EnemyLogic = npc.GetComponent<EnemyAI>();
+        EnemyAI EnemyLogic = npc.transform.Find("Script").GetComponent<EnemyAI>();
+
+        if (!isBoss)
+        {
+            Transform sprite = npc.transform.Find("Sprite");
+            sprite.localScale = new Vector3(1, 1, 1);
+            int SpriteInd = UnityEngine.Random.Range(0, ItemAssets.Instance.SimpleEnemySprites.Length);
+            EnemyLogic.SpriteIdNetvar.Value = SpriteInd;
+            //sprite.GetComponent<SpriteRenderer>().sprite = ItemAssets.Instance.SimpleEnemySprites[SpriteInd];
+        } else
+        {
+            Transform sprite = npc.transform.Find("Sprite");
+            sprite.localScale = new Vector3(1, 1, 1);
+            EnemyLogic.IsBossNetvar.Value = true;
+            //sprite.GetComponent<SpriteRenderer>().sprite = ItemAssets.Instance.BossSprite;
+        }
+
+        Damageable EnemyDamagable = npc.GetComponent<Damageable>();
 
         // config npc
-        npc.GetComponent<Damageable>().Died += OnEnemyDied;
-        
+        EnemyLogic.TimeBetweenAttacks = (EnemyLogic.TimeBetweenAttacks / (1f + level * 0.1f)) < 0.1f ? 0.1f : (EnemyLogic.TimeBetweenAttacks / (1f + level * 0.1f));
+        EnemyLogic.BulletVelocity = (EnemyLogic.BulletVelocity + level * 0.2f) > 3f ? 3f : (EnemyLogic.BulletVelocity + level * 0.2f);
+        EnemyLogic.WeaponDamage = EnemyLogic.WeaponDamage + level;
+        EnemyDamagable.SetHp(EnemyDamagable.MaxHP + level * 5);
+
+        // boss
+        if (isBoss)
+        {
+            EnemyLogic.TimeBetweenAttacks /= 1.5f;
+            EnemyLogic.BulletVelocity *= 1.5f;
+            EnemyLogic.WeaponDamage += 5;
+            EnemyDamagable.SetHp(EnemyDamagable.GetMaxHP() * 3);
+        }
+
+        EnemyDamagable.Died += OnEnemyDied;
+
         npc.GetComponent<NetworkObject>().Spawn();
         return EnemyLogic;
     }

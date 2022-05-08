@@ -84,7 +84,7 @@ public class UIInventory : MonoBehaviour
             helmIm.sprite = ItemAssets.Instance.emptyHeadSlot;
         } else
         {
-            helmIm.sprite = helm.GetSprite();
+            helmIm.sprite = helm.GetIcon();
             helmIH.setItem(helm, ItemHolder.State.OnCharacter);
         }
         // CHECK ARMOR SLOT
@@ -95,7 +95,7 @@ public class UIInventory : MonoBehaviour
         }
         else
         {
-            armIm.sprite = arm.GetSprite();
+            armIm.sprite = arm.GetIcon();
             armIH.setItem(arm, ItemHolder.State.OnCharacter);
         }
         // CHECK GUN SLOT
@@ -106,7 +106,7 @@ public class UIInventory : MonoBehaviour
         }
         else
         {
-            gunIm.sprite = gun.GetSprite();
+            gunIm.sprite = gun.GetIcon();
             gunIH.setItem(gun, ItemHolder.State.OnCharacter);
         }
 
@@ -123,7 +123,7 @@ public class UIInventory : MonoBehaviour
             itemSRT.gameObject.SetActive(true);
             itemSRT.GetComponent<ItemHolder>().setItem(item, ItemHolder.State.InInventory);
             Image im = itemSRT.Find("Image").GetComponent<Image>();
-            im.sprite = item.GetSprite();
+            im.sprite = item.GetIcon();
             TextMeshProUGUI UItext = itemSRT.Find("amountText").GetComponent<TextMeshProUGUI>();
             UItext.alpha = 1f;
             if(item.amount > 1)

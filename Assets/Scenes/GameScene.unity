@@ -684,7 +684,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1041821237
 Transform:
   m_ObjectHideFlags: 0
@@ -1214,16 +1214,40 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3831835508288646447, guid: b0289aeba925a474eb207e51baaa5df0, type: 3}
       propertyPath: NetworkConfig.NetworkPrefabs.Array.size
-      value: 9
+      value: 12
       objectReference: {fileID: 0}
     - target: {fileID: 3831835508288646447, guid: b0289aeba925a474eb207e51baaa5df0, type: 3}
       propertyPath: NetworkConfig.NetworkPrefabs.Array.data[4].Prefab
       value: 
       objectReference: {fileID: 1284993980}
     - target: {fileID: 3831835508288646447, guid: b0289aeba925a474eb207e51baaa5df0, type: 3}
-      propertyPath: NetworkConfig.NetworkPrefabs.Array.data[8].Prefab
+      propertyPath: NetworkConfig.NetworkPrefabs.Array.data[5].Prefab
+      value: 
+      objectReference: {fileID: 7992915845925146831, guid: 96da975befe86ca4a948ae1b51b74343, type: 3}
+    - target: {fileID: 3831835508288646447, guid: b0289aeba925a474eb207e51baaa5df0, type: 3}
+      propertyPath: NetworkConfig.NetworkPrefabs.Array.data[6].Prefab
       value: 
       objectReference: {fileID: 703231569145616570, guid: 438b5620be3cb6d499273a8bac57fec2, type: 3}
+    - target: {fileID: 3831835508288646447, guid: b0289aeba925a474eb207e51baaa5df0, type: 3}
+      propertyPath: NetworkConfig.NetworkPrefabs.Array.data[7].Prefab
+      value: 
+      objectReference: {fileID: 5458286952698900008, guid: 380a6fdf24aad624d83f4721c4848677, type: 3}
+    - target: {fileID: 3831835508288646447, guid: b0289aeba925a474eb207e51baaa5df0, type: 3}
+      propertyPath: NetworkConfig.NetworkPrefabs.Array.data[8].Prefab
+      value: 
+      objectReference: {fileID: 7819901377961788165, guid: c77cca05c39d3cd4eb5b014151d7f0ee, type: 3}
+    - target: {fileID: 3831835508288646447, guid: b0289aeba925a474eb207e51baaa5df0, type: 3}
+      propertyPath: NetworkConfig.NetworkPrefabs.Array.data[9].Prefab
+      value: 
+      objectReference: {fileID: 5881650013623686705, guid: 8c56ebf82559db249b0f061f546f5fae, type: 3}
+    - target: {fileID: 3831835508288646447, guid: b0289aeba925a474eb207e51baaa5df0, type: 3}
+      propertyPath: NetworkConfig.NetworkPrefabs.Array.data[10].Prefab
+      value: 
+      objectReference: {fileID: 4486775884282229532, guid: 3bec1a2aa819dca42961a1e689d51c95, type: 3}
+    - target: {fileID: 3831835508288646447, guid: b0289aeba925a474eb207e51baaa5df0, type: 3}
+      propertyPath: NetworkConfig.NetworkPrefabs.Array.data[11].Prefab
+      value: 
+      objectReference: {fileID: 3576551232413091503, guid: 720880336c3780a4bacfe1c358ef2e69, type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b0289aeba925a474eb207e51baaa5df0, type: 3}
 --- !u!1001 &7165001831563690281
@@ -1234,53 +1258,105 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 133858654, guid: 9deacacfda411f44597b7213d0de5c26, type: 3}
+      propertyPath: Room2
+      value: 
+      objectReference: {fileID: 3901272110561181413, guid: 8c56ebf82559db249b0f061f546f5fae, type: 3}
+    - target: {fileID: 133858654, guid: 9deacacfda411f44597b7213d0de5c26, type: 3}
+      propertyPath: Room3
+      value: 
+      objectReference: {fileID: 6485167193682828232, guid: 3bec1a2aa819dca42961a1e689d51c95, type: 3}
+    - target: {fileID: 133858654, guid: 9deacacfda411f44597b7213d0de5c26, type: 3}
+      propertyPath: Enemy1
+      value: 
+      objectReference: {fileID: -8021915797057263151, guid: ef56c452b02f7bc4f8f6f637a38cc18f, type: 3}
+    - target: {fileID: 133858654, guid: 9deacacfda411f44597b7213d0de5c26, type: 3}
+      propertyPath: Enemy2
+      value: 
+      objectReference: {fileID: -4529019971757140293, guid: ef56c452b02f7bc4f8f6f637a38cc18f, type: 3}
+    - target: {fileID: 133858654, guid: 9deacacfda411f44597b7213d0de5c26, type: 3}
+      propertyPath: Enemy3
+      value: 
+      objectReference: {fileID: -8809463439104693947, guid: ef56c452b02f7bc4f8f6f637a38cc18f, type: 3}
+    - target: {fileID: 133858654, guid: 9deacacfda411f44597b7213d0de5c26, type: 3}
+      propertyPath: Enemy4
+      value: 
+      objectReference: {fileID: -4601949606462798418, guid: ef56c452b02f7bc4f8f6f637a38cc18f, type: 3}
+    - target: {fileID: 133858654, guid: 9deacacfda411f44597b7213d0de5c26, type: 3}
+      propertyPath: Enemy5
+      value: 
+      objectReference: {fileID: -3891665203199982751, guid: ef56c452b02f7bc4f8f6f637a38cc18f, type: 3}
+    - target: {fileID: 133858654, guid: 9deacacfda411f44597b7213d0de5c26, type: 3}
+      propertyPath: Enemy6
+      value: 
+      objectReference: {fileID: 5667719291815872973, guid: ef56c452b02f7bc4f8f6f637a38cc18f, type: 3}
+    - target: {fileID: 133858654, guid: 9deacacfda411f44597b7213d0de5c26, type: 3}
+      propertyPath: Enemy7
+      value: 
+      objectReference: {fileID: -5056407411948386963, guid: ef56c452b02f7bc4f8f6f637a38cc18f, type: 3}
+    - target: {fileID: 133858654, guid: 9deacacfda411f44597b7213d0de5c26, type: 3}
+      propertyPath: Enemy8
+      value: 
+      objectReference: {fileID: 1771006722387886518, guid: ef56c452b02f7bc4f8f6f637a38cc18f, type: 3}
+    - target: {fileID: 133858654, guid: 9deacacfda411f44597b7213d0de5c26, type: 3}
       propertyPath: GoodAR
       value: 
-      objectReference: {fileID: 5508725064705088119, guid: 716bd93564fff024dad684851c6e9d87, type: 3}
+      objectReference: {fileID: -2619978822741649965, guid: c6a0b07f6242f5d4aa4a6ddaabdebbeb, type: 3}
     - target: {fileID: 133858654, guid: 9deacacfda411f44597b7213d0de5c26, type: 3}
       propertyPath: RareAR
       value: 
-      objectReference: {fileID: 5508725064705088119, guid: 716bd93564fff024dad684851c6e9d87, type: 3}
+      objectReference: {fileID: -1273803434123196642, guid: c6a0b07f6242f5d4aa4a6ddaabdebbeb, type: 3}
+    - target: {fileID: 133858654, guid: 9deacacfda411f44597b7213d0de5c26, type: 3}
+      propertyPath: BossRoom
+      value: 
+      objectReference: {fileID: 6204198540221279867, guid: 720880336c3780a4bacfe1c358ef2e69, type: 3}
     - target: {fileID: 133858654, guid: 9deacacfda411f44597b7213d0de5c26, type: 3}
       propertyPath: CommonAR
       value: 
-      objectReference: {fileID: 5508725064705088119, guid: 716bd93564fff024dad684851c6e9d87, type: 3}
+      objectReference: {fileID: 8283455051351163010, guid: c6a0b07f6242f5d4aa4a6ddaabdebbeb, type: 3}
+    - target: {fileID: 133858654, guid: 9deacacfda411f44597b7213d0de5c26, type: 3}
+      propertyPath: arSprite
+      value: 
+      objectReference: {fileID: -6366816018467688719, guid: c6a0b07f6242f5d4aa4a6ddaabdebbeb, type: 3}
     - target: {fileID: 133858654, guid: 9deacacfda411f44597b7213d0de5c26, type: 3}
       propertyPath: GoodArmor
       value: 
-      objectReference: {fileID: 6099581493293703690, guid: 716bd93564fff024dad684851c6e9d87, type: 3}
+      objectReference: {fileID: -5138462804842719869, guid: c6a0b07f6242f5d4aa4a6ddaabdebbeb, type: 3}
     - target: {fileID: 133858654, guid: 9deacacfda411f44597b7213d0de5c26, type: 3}
       propertyPath: RareArmor
       value: 
-      objectReference: {fileID: 6099581493293703690, guid: 716bd93564fff024dad684851c6e9d87, type: 3}
+      objectReference: {fileID: 2999172322065882272, guid: c6a0b07f6242f5d4aa4a6ddaabdebbeb, type: 3}
+    - target: {fileID: 133858654, guid: 9deacacfda411f44597b7213d0de5c26, type: 3}
+      propertyPath: BossSprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 477fcfb2f46222e44b9ba27ed5e74b24, type: 3}
     - target: {fileID: 133858654, guid: 9deacacfda411f44597b7213d0de5c26, type: 3}
       propertyPath: GoodHelmet
       value: 
-      objectReference: {fileID: -5428206428529569624, guid: 716bd93564fff024dad684851c6e9d87, type: 3}
+      objectReference: {fileID: 2976762008783020323, guid: c6a0b07f6242f5d4aa4a6ddaabdebbeb, type: 3}
     - target: {fileID: 133858654, guid: 9deacacfda411f44597b7213d0de5c26, type: 3}
       propertyPath: GoodPistol
       value: 
-      objectReference: {fileID: 6761164967045977113, guid: 716bd93564fff024dad684851c6e9d87, type: 3}
+      objectReference: {fileID: -5209969220492759724, guid: c6a0b07f6242f5d4aa4a6ddaabdebbeb, type: 3}
     - target: {fileID: 133858654, guid: 9deacacfda411f44597b7213d0de5c26, type: 3}
       propertyPath: RareHelmet
       value: 
-      objectReference: {fileID: -5428206428529569624, guid: 716bd93564fff024dad684851c6e9d87, type: 3}
+      objectReference: {fileID: 3111224701421057300, guid: c6a0b07f6242f5d4aa4a6ddaabdebbeb, type: 3}
     - target: {fileID: 133858654, guid: 9deacacfda411f44597b7213d0de5c26, type: 3}
       propertyPath: RarePistol
       value: 
-      objectReference: {fileID: 6761164967045977113, guid: 716bd93564fff024dad684851c6e9d87, type: 3}
+      objectReference: {fileID: 6150417246225360284, guid: c6a0b07f6242f5d4aa4a6ddaabdebbeb, type: 3}
     - target: {fileID: 133858654, guid: 9deacacfda411f44597b7213d0de5c26, type: 3}
       propertyPath: Character_0
       value: 
-      objectReference: {fileID: -4433335395886539912, guid: ef56c452b02f7bc4f8f6f637a38cc18f, type: 3}
+      objectReference: {fileID: -2344155541557230206, guid: c6a0b07f6242f5d4aa4a6ddaabdebbeb, type: 3}
     - target: {fileID: 133858654, guid: 9deacacfda411f44597b7213d0de5c26, type: 3}
       propertyPath: CommonArmor
       value: 
-      objectReference: {fileID: 6099581493293703690, guid: 716bd93564fff024dad684851c6e9d87, type: 3}
+      objectReference: {fileID: 4483226399219283781, guid: c6a0b07f6242f5d4aa4a6ddaabdebbeb, type: 3}
     - target: {fileID: 133858654, guid: 9deacacfda411f44597b7213d0de5c26, type: 3}
       propertyPath: LegendaryAR
       value: 
-      objectReference: {fileID: 5508725064705088119, guid: 716bd93564fff024dad684851c6e9d87, type: 3}
+      objectReference: {fileID: 140581917799056947, guid: c6a0b07f6242f5d4aa4a6ddaabdebbeb, type: 3}
     - target: {fileID: 133858654, guid: 9deacacfda411f44597b7213d0de5c26, type: 3}
       propertyPath: BlockingGate
       value: 
@@ -1288,39 +1364,91 @@ PrefabInstance:
     - target: {fileID: 133858654, guid: 9deacacfda411f44597b7213d0de5c26, type: 3}
       propertyPath: CommonHelmet
       value: 
-      objectReference: {fileID: -5428206428529569624, guid: 716bd93564fff024dad684851c6e9d87, type: 3}
+      objectReference: {fileID: 3573548724567666941, guid: c6a0b07f6242f5d4aa4a6ddaabdebbeb, type: 3}
     - target: {fileID: 133858654, guid: 9deacacfda411f44597b7213d0de5c26, type: 3}
       propertyPath: CommonPistol
       value: 
-      objectReference: {fileID: 6761164967045977113, guid: 716bd93564fff024dad684851c6e9d87, type: 3}
+      objectReference: {fileID: 4240907826260608100, guid: c6a0b07f6242f5d4aa4a6ddaabdebbeb, type: 3}
+    - target: {fileID: 133858654, guid: 9deacacfda411f44597b7213d0de5c26, type: 3}
+      propertyPath: SimpleArIcon
+      value: 
+      objectReference: {fileID: 8851744096601451425, guid: c6a0b07f6242f5d4aa4a6ddaabdebbeb, type: 3}
+    - target: {fileID: 133858654, guid: 9deacacfda411f44597b7213d0de5c26, type: 3}
+      propertyPath: pistolSprite
+      value: 
+      objectReference: {fileID: 4240907826260608100, guid: c6a0b07f6242f5d4aa4a6ddaabdebbeb, type: 3}
+    - target: {fileID: 133858654, guid: 9deacacfda411f44597b7213d0de5c26, type: 3}
+      propertyPath: GoodArmorIcon
+      value: 
+      objectReference: {fileID: 7116046823187826928, guid: c6a0b07f6242f5d4aa4a6ddaabdebbeb, type: 3}
+    - target: {fileID: 133858654, guid: 9deacacfda411f44597b7213d0de5c26, type: 3}
+      propertyPath: RareArmorIcon
+      value: 
+      objectReference: {fileID: -3672267038863296239, guid: c6a0b07f6242f5d4aa4a6ddaabdebbeb, type: 3}
+    - target: {fileID: 133858654, guid: 9deacacfda411f44597b7213d0de5c26, type: 3}
+      propertyPath: GoodHelmetIcon
+      value: 
+      objectReference: {fileID: 7422874093292532989, guid: c6a0b07f6242f5d4aa4a6ddaabdebbeb, type: 3}
     - target: {fileID: 133858654, guid: 9deacacfda411f44597b7213d0de5c26, type: 3}
       propertyPath: LegendaryArmor
       value: 
-      objectReference: {fileID: 6099581493293703690, guid: 716bd93564fff024dad684851c6e9d87, type: 3}
+      objectReference: {fileID: 4017541895019758850, guid: c6a0b07f6242f5d4aa4a6ddaabdebbeb, type: 3}
+    - target: {fileID: 133858654, guid: 9deacacfda411f44597b7213d0de5c26, type: 3}
+      propertyPath: RareHelmetIcon
+      value: 
+      objectReference: {fileID: 3111224701421057300, guid: c6a0b07f6242f5d4aa4a6ddaabdebbeb, type: 3}
+    - target: {fileID: 133858654, guid: 9deacacfda411f44597b7213d0de5c26, type: 3}
+      propertyPath: CommonArmorIcon
+      value: 
+      objectReference: {fileID: -4283395828340104866, guid: c6a0b07f6242f5d4aa4a6ddaabdebbeb, type: 3}
     - target: {fileID: 133858654, guid: 9deacacfda411f44597b7213d0de5c26, type: 3}
       propertyPath: LegendaryHelmet
       value: 
-      objectReference: {fileID: -5428206428529569624, guid: 716bd93564fff024dad684851c6e9d87, type: 3}
+      objectReference: {fileID: -67539307474246909, guid: c6a0b07f6242f5d4aa4a6ddaabdebbeb, type: 3}
     - target: {fileID: 133858654, guid: 9deacacfda411f44597b7213d0de5c26, type: 3}
       propertyPath: LegendaryPistol
       value: 
-      objectReference: {fileID: 6761164967045977113, guid: 716bd93564fff024dad684851c6e9d87, type: 3}
+      objectReference: {fileID: 6812230754503299096, guid: c6a0b07f6242f5d4aa4a6ddaabdebbeb, type: 3}
+    - target: {fileID: 133858654, guid: 9deacacfda411f44597b7213d0de5c26, type: 3}
+      propertyPath: CommonHelmetIcon
+      value: 
+      objectReference: {fileID: -7522841359246393945, guid: c6a0b07f6242f5d4aa4a6ddaabdebbeb, type: 3}
+    - target: {fileID: 133858654, guid: 9deacacfda411f44597b7213d0de5c26, type: 3}
+      propertyPath: SimplePistolIcon
+      value: 
+      objectReference: {fileID: 140581917799056947, guid: c6a0b07f6242f5d4aa4a6ddaabdebbeb, type: 3}
     - target: {fileID: 133858654, guid: 9deacacfda411f44597b7213d0de5c26, type: 3}
       propertyPath: GoodRocketLauncher
       value: 
-      objectReference: {fileID: -68751727340038015, guid: 716bd93564fff024dad684851c6e9d87, type: 3}
+      objectReference: {fileID: 2722888558922348134, guid: c6a0b07f6242f5d4aa4a6ddaabdebbeb, type: 3}
+    - target: {fileID: 133858654, guid: 9deacacfda411f44597b7213d0de5c26, type: 3}
+      propertyPath: LegendaryArmorIcon
+      value: 
+      objectReference: {fileID: -3007655025904292197, guid: c6a0b07f6242f5d4aa4a6ddaabdebbeb, type: 3}
     - target: {fileID: 133858654, guid: 9deacacfda411f44597b7213d0de5c26, type: 3}
       propertyPath: RareRocketLauncher
       value: 
-      objectReference: {fileID: -68751727340038015, guid: 716bd93564fff024dad684851c6e9d87, type: 3}
+      objectReference: {fileID: -6499684564016658981, guid: c6a0b07f6242f5d4aa4a6ddaabdebbeb, type: 3}
+    - target: {fileID: 133858654, guid: 9deacacfda411f44597b7213d0de5c26, type: 3}
+      propertyPath: LegendaryHelmetIcon
+      value: 
+      objectReference: {fileID: 8532529656690454636, guid: c6a0b07f6242f5d4aa4a6ddaabdebbeb, type: 3}
     - target: {fileID: 133858654, guid: 9deacacfda411f44597b7213d0de5c26, type: 3}
       propertyPath: CommonRocketLauncher
       value: 
-      objectReference: {fileID: -68751727340038015, guid: 716bd93564fff024dad684851c6e9d87, type: 3}
+      objectReference: {fileID: -6366816018467688719, guid: c6a0b07f6242f5d4aa4a6ddaabdebbeb, type: 3}
+    - target: {fileID: 133858654, guid: 9deacacfda411f44597b7213d0de5c26, type: 3}
+      propertyPath: rocketLauncherSprite
+      value: 
+      objectReference: {fileID: -5209969220492759724, guid: c6a0b07f6242f5d4aa4a6ddaabdebbeb, type: 3}
     - target: {fileID: 133858654, guid: 9deacacfda411f44597b7213d0de5c26, type: 3}
       propertyPath: LegendaryRocketLauncher
       value: 
-      objectReference: {fileID: -68751727340038015, guid: 716bd93564fff024dad684851c6e9d87, type: 3}
+      objectReference: {fileID: 4660417788894057127, guid: c6a0b07f6242f5d4aa4a6ddaabdebbeb, type: 3}
+    - target: {fileID: 133858654, guid: 9deacacfda411f44597b7213d0de5c26, type: 3}
+      propertyPath: SimpleRocketlauncherIcon
+      value: 
+      objectReference: {fileID: 5402782689095220939, guid: c6a0b07f6242f5d4aa4a6ddaabdebbeb, type: 3}
     - target: {fileID: 1284993982, guid: 9deacacfda411f44597b7213d0de5c26, type: 3}
       propertyPath: MapHolder
       value: 

@@ -140,6 +140,50 @@ public class Item
                 return new Color();
         }
     }
+    public Sprite GetIcon()
+    {
+        switch (itemType)
+        {
+            case ItemType.Pistol:
+                if (itemTier == ItemTier.Common) return ItemAssets.Instance.CommonPistol;
+                if (itemTier == ItemTier.Good) return ItemAssets.Instance.GoodPistol;
+                if (itemTier == ItemTier.Rare) return ItemAssets.Instance.RarePistol;
+                if (itemTier == ItemTier.Legendary) return ItemAssets.Instance.LegendaryPistol;
+                return null;
+            case ItemType.AR:
+                if (itemTier == ItemTier.Common) return ItemAssets.Instance.CommonAR;
+                if (itemTier == ItemTier.Good) return ItemAssets.Instance.GoodAR;
+                if (itemTier == ItemTier.Rare) return ItemAssets.Instance.RareAR;
+                if (itemTier == ItemTier.Legendary) return ItemAssets.Instance.LegendaryAR;
+                return null;
+            case ItemType.RocketLauncher:
+                if (itemTier == ItemTier.Common) return ItemAssets.Instance.CommonRocketLauncher;
+                if (itemTier == ItemTier.Good) return ItemAssets.Instance.GoodRocketLauncher;
+                if (itemTier == ItemTier.Rare) return ItemAssets.Instance.RareRocketLauncher;
+                if (itemTier == ItemTier.Legendary) return ItemAssets.Instance.LegendaryRocketLauncher;
+                return null;
+            case ItemType.Head:
+                if (itemTier == ItemTier.Common) return ItemAssets.Instance.CommonHelmetIcon;
+                if (itemTier == ItemTier.Good) return ItemAssets.Instance.GoodHelmetIcon;
+                if (itemTier == ItemTier.Rare) return ItemAssets.Instance.RareHelmetIcon;
+                if (itemTier == ItemTier.Legendary) return ItemAssets.Instance.LegendaryHelmetIcon;
+                return null;
+            case ItemType.Body:
+                if (itemTier == ItemTier.Common) return ItemAssets.Instance.CommonArmorIcon;
+                if (itemTier == ItemTier.Good) return ItemAssets.Instance.GoodArmorIcon;
+                if (itemTier == ItemTier.Rare) return ItemAssets.Instance.RareArmorIcon;
+                if (itemTier == ItemTier.Legendary) return ItemAssets.Instance.LegendaryArmorIcon;
+                return null;
+            case ItemType.HealthPotion:
+                return ItemAssets.Instance.healthPotionSprite;
+            case ItemType.Coin:
+                return ItemAssets.Instance.coinSprite;
+            case ItemType.Xp:
+                return ItemAssets.Instance.xpSprite;
+            default:
+                return null;
+        }
+    }
     public Sprite GetSprite()
     {
         switch(itemType)

@@ -19,6 +19,7 @@ public class Damageable : NetworkBehaviour
     [SerializeField] public UIHealthBar uiHealthBar;
 
     public NetworkVariable<int> NetHP = new NetworkVariable<int>();
+    public NetworkVariable<int> NetMaxHP = new NetworkVariable<int>();
     public int HP;
     public int MaxHP = 100;
     private void Start()
@@ -44,22 +45,33 @@ public class Damageable : NetworkBehaviour
         NetHP.OnValueChanged += OnNetHpChanged;
         if (IsServer || IsHost)
         {
-            GameManager.Instance.PlayerJoined(this);
+            NetMaxHP.Value = MaxHP;
             NetHP.Value = MaxHP;
             HP = MaxHP;
             HpChanged?.Invoke(this, EventArgs.Empty);
         }
         if (IsClient)
         {
+            MaxHP = NetMaxHP.Value;
             HP = NetHP.Value;
             HpChanged?.Invoke(this, EventArgs.Empty);
         }
-        /*
         if(IsLocalPlayer)
         {
-            SyncNetValuesServerRpc();
+            GameManager.Instance.PlayerJoined(this);
         }
-        */
+        
+    }
+    public void SetHp(int HpToSet)
+    {
+        if (IsServer || IsHost)
+        {
+            NetMaxHP.Value = HpToSet;
+            NetHP.Value = HpToSet;
+            MaxHP = HpToSet;
+            HP = HpToSet;
+            HpChanged?.Invoke(this, EventArgs.Empty);
+        }
     }
     public override void OnNetworkDespawn()
     {
@@ -69,6 +81,7 @@ public class Damageable : NetworkBehaviour
     private void OnNetHpChanged(int previousValue, int newValue)
     {
         HP = NetHP.Value;
+        MaxHP = NetMaxHP.Value;
         HpChanged?.Invoke(this, EventArgs.Empty);
         if(HP <= 0)
         {

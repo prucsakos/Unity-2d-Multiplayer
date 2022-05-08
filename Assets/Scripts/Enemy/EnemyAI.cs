@@ -5,16 +5,23 @@ using UnityEngine.AI;
 using Unity.Netcode;
 public class EnemyAI : NetworkBehaviour
 {
+    public NetworkVariable<bool> IsBossNetvar = new NetworkVariable<bool>(false);
+    public NetworkVariable<int> SpriteIdNetvar = new NetworkVariable<int>(0);
+    public bool IsBoss = false;
+    public int SpriteId = 0;
 
     public bool hasTarget = false;
     public Transform target;
     public NavMeshAgent agent;
+    public Transform AgentSprite;
+    public GameObject Parent;
 
     private Vector3 lastPos;
 
     public LayerMask whatIsGround, whatIsPlayer, whatIsBlocking;
     public float destinationReachedMargin = 0.3f;
 
+    // Config
     public float ChaseSpeed;
     public float PatrolSpeed;
     public float TimeBetweenAttacks;
@@ -38,10 +45,19 @@ public class EnemyAI : NetworkBehaviour
 
     public override void OnNetworkSpawn()
     {
+        IsBossNetvar.OnValueChanged += OnIsBossChanged;
+        SpriteIdNetvar.OnValueChanged += OnSpriteIdChanged;
+        if (IsBossNetvar.Value)
+        {
+            AgentSprite.GetComponent<SpriteRenderer>().sprite = ItemAssets.Instance.BossSprite;
+        }
+        else
+        {
+            AgentSprite.GetComponent<SpriteRenderer>().sprite = ItemAssets.Instance.SimpleEnemySprites[SpriteIdNetvar.Value];
+        }
         if (IsServer)
         {
-            Debug.Log("INIT");
-            agent = gameObject.GetComponent<NavMeshAgent>();
+            // agent = transform.GetComponent<NavMeshAgent>();
             agent.updateUpAxis = false;
             agent.updateRotation = false;
             agent.speed = 0.5f;
@@ -52,6 +68,19 @@ public class EnemyAI : NetworkBehaviour
             transform.rotation = Quaternion.identity;
         }
           
+    }
+
+    private void OnIsBossChanged(bool previousValue, bool newValue)
+    {
+        if (IsBossNetvar.Value)
+        {
+            AgentSprite.GetComponent<SpriteRenderer>().sprite = ItemAssets.Instance.BossSprite;
+        }
+    }
+
+    private void OnSpriteIdChanged(int previousValue, int newValue)
+    {
+        AgentSprite.GetComponent<SpriteRenderer>().sprite = ItemAssets.Instance.SimpleEnemySprites[SpriteIdNetvar.Value];
     }
 
     void Update()
@@ -139,9 +168,9 @@ public class EnemyAI : NetworkBehaviour
         {
             agent.SetDestination(walkPoint);
         }
-
         Vector3 distanceToWalkPoint = transform.position - walkPoint;
-        if(distanceToWalkPoint.magnitude < destinationReachedMargin)
+        AgentSprite.up = new Vector3(walkPoint.x, walkPoint.y, 0) - new Vector3(transform.position.x, transform.position.y, 0);
+        if (distanceToWalkPoint.magnitude < destinationReachedMargin)
         {
             walkPointSet = false;
         }
@@ -171,12 +200,12 @@ public class EnemyAI : NetworkBehaviour
     {
         Debug.Log("chase");
         agent.SetDestination(target.position);
+        AgentSprite.up = new Vector3(target.position.x, target.position.y, 0) - new Vector3(transform.position.x, transform.position.y, 0);
     }
     private void AttackPlayer()
     {
         agent.SetDestination(transform.position);
-
-        transform.up = target.position - transform.position;
+        AgentSprite.up = new Vector3(target.position.x, target.position.y, 0) - new Vector3(transform.position.x, transform.position.y, 0);
 
         AttackLogicServerRpc();
     }
