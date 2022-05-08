@@ -324,8 +324,8 @@ public class PlayerController : NetworkBehaviour
         if (iw != null && iw.IsPickupAble)
         {
             //touch item
-            inventory.AddItem(iw.getItem());
-            iw.DestroySelf();
+            if(inventory.AddItem(iw.getItem())) iw.DestroySelf(); ;
+            
         }
     }
     private void UseItem(Item item)

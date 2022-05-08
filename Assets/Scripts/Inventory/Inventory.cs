@@ -22,6 +22,7 @@ public class Inventory
 
 
     private List<Item> itemList;
+    private int itemMaxCap = 10;
     private Action<Item> useItemAction;
 
     // Character Global Base Stats
@@ -54,6 +55,11 @@ public class Inventory
         MovementSpeed = BaseMovementSpeed + level * MovementSpeedModifier;
 
         ResetInventory();
+        AddItem(new Item(ItemType.AR, ItemTier.Legendary, 1));
+    }
+    public bool isFull()
+    {
+        return itemList.Count >= itemMaxCap;
     }
     public void ResetInventory()
     {
@@ -118,12 +124,12 @@ public class Inventory
         XpChanged?.Invoke(this, EventArgs.Empty);
     }
     // INVENTORY
-    public void AddItem(Item item)
+    public bool AddItem(Item item)
     {
         if(item.itemType == ItemType.Xp)
         {
             ReceiveXp(item.amount);
-            return;
+            return true;
         }
         if(item.IsStackable())
         {
@@ -138,13 +144,16 @@ public class Inventory
             }
             if (!alreadyInInventory)
             {
+                if (isFull()) return false;
                 itemList.Add(item); 
             }
         } else
         {
-        itemList.Add(item);
+            if (isFull()) return false;
+            itemList.Add(item);
         }
         ItemListChanged?.Invoke(this, EventArgs.Empty);
+        return true;
     }
     /// <summary>
     /// 
