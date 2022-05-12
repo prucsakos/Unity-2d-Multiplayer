@@ -12,6 +12,7 @@ using System;
 [RequireComponent(typeof(NetworkObject))]
 public class Damageable : NetworkBehaviour
 {
+    public ulong OwnerId;
 
     public event EventHandler HpChanged;
     public event EventHandler Died;
@@ -32,16 +33,16 @@ public class Damageable : NetworkBehaviour
     private void OnDied(object sender, EventArgs e)
     {
         Debug.Log("Meglat a lkiens");
+        /*
         if(TryGetComponent<PlayerController>(out PlayerController pc))
         {
             pc.inventory.ResetInventory();
         }
-        
+        */
     }
 
     public override void OnNetworkSpawn()
     {
-        Debug.Log("ONNETWORKS");
         NetHP.OnValueChanged += OnNetHpChanged;
         if (IsServer || IsHost)
         {
@@ -56,11 +57,12 @@ public class Damageable : NetworkBehaviour
             HP = NetHP.Value;
             HpChanged?.Invoke(this, EventArgs.Empty);
         }
+        /*
         if(IsLocalPlayer)
         {
             GameManager.Instance.PlayerJoined(this);
         }
-        
+        */
     }
     public void SetHp(int HpToSet)
     {
@@ -83,6 +85,7 @@ public class Damageable : NetworkBehaviour
         HP = NetHP.Value;
         MaxHP = NetMaxHP.Value;
         HpChanged?.Invoke(this, EventArgs.Empty);
+        /*
         if(HP <= 0)
         {
             if (IsLocalPlayer)
@@ -92,7 +95,7 @@ public class Damageable : NetworkBehaviour
                 RequestMaxHPServerRpc();
             }
         }
-
+        */
     }
     [ServerRpc]
     private void RequestMaxHPServerRpc()
@@ -127,7 +130,6 @@ public class Damageable : NetworkBehaviour
         {
             int shield = Inventory.GetArmorFromNetStruct(pc.NetHelmet.Value, pc.NetArmor.Value);
             dmg -= shield;
-            Debug.Log($"shield: {shield}, incoming dmg: {dmg}");
             if (dmg < 0) dmg = 0;
         }
 

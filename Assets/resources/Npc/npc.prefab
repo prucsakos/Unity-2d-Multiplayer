@@ -378,6 +378,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cbbe4ddf2570aee4ca8da88e7ed0cdb3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  OwnerId: 0
   uiHealthBar: {fileID: 2492589697252524730}
   NetHP:
     m_InternalValue: 0

@@ -66,7 +66,6 @@ public class BulletMovement : NetworkBehaviour
                 return;
             }
         }
-        if(IsServer) Debug.Log("Name: " + collision.name);
         // Check if instance is a Damageable
         if (collision.gameObject.TryGetComponent<Damageable>(out Damageable d))
         {

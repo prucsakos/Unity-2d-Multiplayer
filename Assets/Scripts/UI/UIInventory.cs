@@ -124,14 +124,17 @@ public class UIInventory : MonoBehaviour
             itemSRT.GetComponent<ItemHolder>().setItem(item, ItemHolder.State.InInventory);
             Image im = itemSRT.Find("Image").GetComponent<Image>();
             im.sprite = item.GetIcon();
-            TextMeshProUGUI UItext = itemSRT.Find("amountText").GetComponent<TextMeshProUGUI>();
-            UItext.alpha = 1f;
-            if(item.amount > 1)
+            //TextMeshProUGUI UItext = itemSRT.Find("amountText").GetComponent<TextMeshProUGUI>();
+            //UItext.alpha = 1f;
+            Text UItext = itemSRT.Find("amountText").GetComponent<Text>();
+            if (item.amount > 1)
             {
-                UItext.SetText(item.amount.ToString());
+                UItext.text = item.amount.ToString();
+                //UItext.SetText(item.amount.ToString());
             } else
             {
-                UItext.SetText("");
+                UItext.text = "";
+                //UItext.SetText("");
             }
 
             ClickHandler ch = itemSRT.GetComponent<ClickHandler>();

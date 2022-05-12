@@ -5,8 +5,8 @@ using UnityEngine.AI;
 using Unity.Netcode;
 public class EnemyAI : NetworkBehaviour
 {
-    public NetworkVariable<bool> IsBossNetvar = new NetworkVariable<bool>(false);
-    public NetworkVariable<int> SpriteIdNetvar = new NetworkVariable<int>(0);
+    //public NetworkVariable<bool> IsBossNetvar = new NetworkVariable<bool>();
+    public NetworkVariable<int> SpriteIdNetvar = new NetworkVariable<int>();
     public bool IsBoss = false;
     public int SpriteId = 0;
 
@@ -45,19 +45,13 @@ public class EnemyAI : NetworkBehaviour
 
     public override void OnNetworkSpawn()
     {
-        IsBossNetvar.OnValueChanged += OnIsBossChanged;
+        // IsBossNetvar.OnValueChanged += OnIsBossChanged;
         SpriteIdNetvar.OnValueChanged += OnSpriteIdChanged;
-        if (IsBossNetvar.Value)
-        {
-            AgentSprite.GetComponent<SpriteRenderer>().sprite = ItemAssets.Instance.BossSprite;
-        }
-        else
-        {
-            AgentSprite.GetComponent<SpriteRenderer>().sprite = ItemAssets.Instance.SimpleEnemySprites[SpriteIdNetvar.Value];
-        }
-        if (IsServer)
+        AgentSprite.GetComponent<SpriteRenderer>().sprite = ItemAssets.Instance.SimpleEnemySprites[SpriteIdNetvar.Value];
+        if (IsServer || IsHost)
         {
             // agent = transform.GetComponent<NavMeshAgent>();
+            
             agent.updateUpAxis = false;
             agent.updateRotation = false;
             agent.speed = 0.5f;
@@ -69,7 +63,7 @@ public class EnemyAI : NetworkBehaviour
         }
           
     }
-
+    /*
     private void OnIsBossChanged(bool previousValue, bool newValue)
     {
         if (IsBossNetvar.Value)
@@ -77,7 +71,7 @@ public class EnemyAI : NetworkBehaviour
             AgentSprite.GetComponent<SpriteRenderer>().sprite = ItemAssets.Instance.BossSprite;
         }
     }
-
+    */
     private void OnSpriteIdChanged(int previousValue, int newValue)
     {
         AgentSprite.GetComponent<SpriteRenderer>().sprite = ItemAssets.Instance.SimpleEnemySprites[SpriteIdNetvar.Value];
@@ -198,7 +192,6 @@ public class EnemyAI : NetworkBehaviour
     }
     private void ChasePlayer()
     {
-        Debug.Log("chase");
         agent.SetDestination(target.position);
         AgentSprite.up = new Vector3(target.position.x, target.position.y, 0) - new Vector3(transform.position.x, transform.position.y, 0);
     }

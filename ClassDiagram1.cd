@@ -67,7 +67,7 @@
   <Class Name="GameManager" Collapsed="true">
     <Position X="5.75" Y="1.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AQIgQAAAgAAAAAAAJAEAAAIgAAkCBIABSCAAACEAIEQ=</HashCode>
+      <HashCode>AQIgQAAAgAAAAAAAJAkAAAIgAAkCBIABSCAAACEAIEQ=</HashCode>
       <FileName>Assets\Scripts\GameState\GameManager.cs</FileName>
     </TypeIdentifier>
   </Class>

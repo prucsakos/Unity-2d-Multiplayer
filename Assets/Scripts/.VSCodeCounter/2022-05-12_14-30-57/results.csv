@@ -1,0 +1,27 @@
+"filename", "language", "C#", "comment", "blank", "total"
+"c:\Users\prucs\Desktop\unity_game\Unity 2d multiplayer\Assets\Scripts\Camera\CameraMotor.cs", "C#", 46, 0, 9, 55
+"c:\Users\prucs\Desktop\unity_game\Unity 2d multiplayer\Assets\Scripts\Combat\BulletMovement.cs", "C#", 56, 34, 12, 102
+"c:\Users\prucs\Desktop\unity_game\Unity 2d multiplayer\Assets\Scripts\Combat\Damageable.cs", "C#", 124, 37, 16, 177
+"c:\Users\prucs\Desktop\unity_game\Unity 2d multiplayer\Assets\Scripts\Controls\My_InputManager.cs", "C#", 50, 2, 8, 60
+"c:\Users\prucs\Desktop\unity_game\Unity 2d multiplayer\Assets\Scripts\Controls\PlayerController.cs", "C#", 312, 33, 37, 382
+"c:\Users\prucs\Desktop\unity_game\Unity 2d multiplayer\Assets\Scripts\Enemy\EnemyAI.cs", "C#", 198, 18, 40, 256
+"c:\Users\prucs\Desktop\unity_game\Unity 2d multiplayer\Assets\Scripts\GameObjects\Chest.cs", "C#", 62, 1, 8, 71
+"c:\Users\prucs\Desktop\unity_game\Unity 2d multiplayer\Assets\Scripts\GameState\ConnectionManager.cs", "C#", 30, 2, 3, 35
+"c:\Users\prucs\Desktop\unity_game\Unity 2d multiplayer\Assets\Scripts\GameState\GameManager.cs", "C#", 297, 28, 47, 372
+"c:\Users\prucs\Desktop\unity_game\Unity 2d multiplayer\Assets\Scripts\Graphics\SpriteManager.cs", "C#", 53, 1, 4, 58
+"c:\Users\prucs\Desktop\unity_game\Unity 2d multiplayer\Assets\Scripts\Graphics\SpriteRotater.cs", "C#", 20, 0, 4, 24
+"c:\Users\prucs\Desktop\unity_game\Unity 2d multiplayer\Assets\Scripts\Inventory\Inventory.cs", "C#", 285, 13, 28, 326
+"c:\Users\prucs\Desktop\unity_game\Unity 2d multiplayer\Assets\Scripts\Inventory\Item.cs", "C#", 328, 10, 15, 353
+"c:\Users\prucs\Desktop\unity_game\Unity 2d multiplayer\Assets\Scripts\Inventory\ItemAssets.cs", "C#", 82, 5, 21, 108
+"c:\Users\prucs\Desktop\unity_game\Unity 2d multiplayer\Assets\Scripts\Inventory\ItemHolder.cs", "C#", 20, 0, 5, 25
+"c:\Users\prucs\Desktop\unity_game\Unity 2d multiplayer\Assets\Scripts\Inventory\ItemStructNetcode.cs", "C#", 75, 0, 3, 78
+"c:\Users\prucs\Desktop\unity_game\Unity 2d multiplayer\Assets\Scripts\Inventory\ItemWorld.cs", "C#", 95, 5, 16, 116
+"c:\Users\prucs\Desktop\unity_game\Unity 2d multiplayer\Assets\Scripts\Inventory\ItemWorldSpawner.cs", "C#", 61, 0, 3, 64
+"c:\Users\prucs\Desktop\unity_game\Unity 2d multiplayer\Assets\Scripts\UI\UIHealthBar.cs", "C#", 44, 0, 5, 49
+"c:\Users\prucs\Desktop\unity_game\Unity 2d multiplayer\Assets\Scripts\UI\UIInventory.cs", "C#", 179, 13, 20, 212
+"c:\Users\prucs\Desktop\unity_game\Unity 2d multiplayer\Assets\Scripts\UI\UIManager.cs", "C#", 76, 2, 9, 87
+"c:\Users\prucs\Desktop\unity_game\Unity 2d multiplayer\Assets\Scripts\UI\UIXpBar.cs", "C#", 61, 1, 7, 69
+"c:\Users\prucs\Desktop\unity_game\Unity 2d multiplayer\Assets\Scripts\Utils\ClickHandler.cs", "C#", 82, 2, 13, 97
+"c:\Users\prucs\Desktop\unity_game\Unity 2d multiplayer\Assets\Scripts\Utils\DropHandler.cs", "C#", 14, 0, 2, 16
+"c:\Users\prucs\Desktop\unity_game\Unity 2d multiplayer\Assets\Scripts\Utils\MapInfo.cs", "C#", 78, 4, 7, 89
+"Total", "-", 2728, 211, 342, 3281

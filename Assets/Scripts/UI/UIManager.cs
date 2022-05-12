@@ -6,6 +6,8 @@ using Unity.Netcode.Transports.UNET;
 
 public class UIManager : MonoBehaviour
 {
+    public GameObject Stats;
+    public GameObject MapCamera;
 
     public GameObject MainMenuScreen;
     public GameObject HostScreen;
@@ -35,15 +37,20 @@ public class UIManager : MonoBehaviour
         unt.ConnectAddress = Address;
         unt.ConnectPort = int.Parse(Port);
         cm.Join();
-
+        setupUi();
         closeScreens();
     }
     public void onHostClicked()
     {
         unt.ServerListenPort = int.Parse(Port); 
         cm.Host();
-
+        setupUi();
         closeScreens();
+    }
+    private void setupUi()
+    {
+        Stats.SetActive(true);
+        //MapCamera.SetActive(false);
     }
     public void onAddressChanged(string value)
     {
@@ -65,7 +72,6 @@ public class UIManager : MonoBehaviour
     }
     public void MainMenu()
     {
-        Debug.Log("BUTTON CLICKED");
         closeScreens();
         MainMenuScreen.SetActive(true);
     }

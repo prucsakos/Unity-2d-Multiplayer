@@ -6,7 +6,8 @@ using System;
 
 public class ConnectionManager : MonoBehaviour
 {
-    public int MaxPlayerCount = 3;
+    // public int MaxPlayerCount = 3;
+    public GameManager gameManager;
     private void Start()
     {
         DontDestroyOnLoad(this);
@@ -16,14 +17,14 @@ public class ConnectionManager : MonoBehaviour
         NetworkManager.Singleton.ConnectionApprovalCallback += ApprovalCheck;
         NetworkManager.Singleton.StartHost();
     }
-
+    // Server side function
     private void ApprovalCheck(byte[] connectionData, ulong clientId, NetworkManager.ConnectionApprovedDelegate callback)
     {
-        int ConnectedCount = NetworkManager.Singleton.ConnectedClientsIds.Count;
-        Debug.Log($"Connected count: {ConnectedCount}");
-        bool approve = ConnectedCount < MaxPlayerCount ? true : false;
-        bool spawnPlayerPrefab = true; 
-        callback(spawnPlayerPrefab, null, approve, Vector3.zero, Quaternion.identity);
+        Debug.Log($"ApprovalCheck || Client ID: {clientId}");
+        bool approve = true;
+        bool spawnPlayerPrefab = false; 
+        callback(spawnPlayerPrefab, null, approve, Vector3.one, Quaternion.identity);
+        gameManager.ClientJoined(clientId);
     }
 
     public void Join()

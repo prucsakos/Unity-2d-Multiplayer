@@ -11,7 +11,6 @@ public class Inventory
         int res = 0;
         if (helm.isSet) res += new Item(helm).ShieldDamage;
         if (arm.isSet) res += new Item(arm).ShieldDamage;
-        Debug.Log($"Inventory static: def: {res}");
         return res;
     }
 
@@ -129,7 +128,6 @@ public class Inventory
         if(item.itemType == ItemType.Xp)
         {
             ReceiveXp(item.amount);
-            return true;
         }
         if(item.IsStackable())
         {

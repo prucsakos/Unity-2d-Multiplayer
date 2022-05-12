@@ -55,7 +55,7 @@ public class ItemWorldSpawner
     {
         Vector3 dir = new Vector3(direction.x, direction.y).normalized;
         Vector3 pos = dropPos; // + dir * 0.2f;
-        ItemWorld iw = ItemWorld.SpawnItemWorld(pos, new Item(item.itemType, ItemTier.Common, item.amount));
+        ItemWorld iw = ItemWorld.SpawnItemWorld(pos, new Item(item.itemType, item.itemTier, item.amount));
         iw.GetComponent<Rigidbody2D>().AddForce(dir * 1.3f, ForceMode2D.Impulse);
         iw.ItemStructNetVar.Value = new ItemStructNetcode(item);
         iw.GetComponent<NetworkObject>().Spawn();

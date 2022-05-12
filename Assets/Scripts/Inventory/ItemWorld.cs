@@ -14,7 +14,7 @@ public class ItemWorld : NetworkBehaviour
     public static ItemWorld SpawnItemWorld(Vector3 position ,Item item)
     {
         
-        Transform transform = Instantiate(ItemAssets.Instance.pfItemWorld, position, Quaternion.identity);
+        Transform transform = Instantiate(ItemAssets.Instance.pfItemWorld, position, Quaternion.identity, GameManager.Instance.SpawnedObjects);
 
         ItemWorld iw = transform.GetComponent<ItemWorld>();
         iw.SetItem(item);

@@ -11,10 +11,12 @@ public class ItemAssets : MonoBehaviour
     {
         Instance = this;
         SimpleRoomList = new Transform[] { Room1, Room2, Room3 };
-        SimpleEnemySprites = new Sprite[] { Enemy1, Enemy2, Enemy3, Enemy4, Enemy5, Enemy6, Enemy7, Enemy8 };
+        SimpleEnemySprites = new Sprite[] { BossSprite, Enemy1, Enemy2, Enemy3, Enemy4, Enemy5, Enemy6, Enemy7, Enemy8 };
+        
     }
     public Transform PlayerPrefab;
     public Transform pfItemWorld;
+    public Transform NavMesh2dObj;
 
     public Sprite pistolSprite;
     public Sprite arSprite;
@@ -34,6 +36,7 @@ public class ItemAssets : MonoBehaviour
     public Sprite emptyBodySlot;
 
     // Map Tiles
+    public Transform EmptyMap;
     public Transform Spawn;
     public Transform Room1;
     public Transform Room2;
