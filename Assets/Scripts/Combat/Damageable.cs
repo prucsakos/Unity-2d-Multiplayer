@@ -27,18 +27,11 @@ public class Damageable : NetworkBehaviour
     {
         Died += OnDied;
         uiHealthBar.setDamagable(GetComponent<Damageable>());
-        // ONNETWORKSPAWN
     }
 
     private void OnDied(object sender, EventArgs e)
     {
-        Debug.Log("Meglat a lkiens");
-        /*
-        if(TryGetComponent<PlayerController>(out PlayerController pc))
-        {
-            pc.inventory.ResetInventory();
-        }
-        */
+        // Local Death Logic
     }
 
     public override void OnNetworkSpawn()
@@ -57,12 +50,6 @@ public class Damageable : NetworkBehaviour
             HP = NetHP.Value;
             HpChanged?.Invoke(this, EventArgs.Empty);
         }
-        /*
-        if(IsLocalPlayer)
-        {
-            GameManager.Instance.PlayerJoined(this);
-        }
-        */
     }
     public void SetHp(int HpToSet)
     {
@@ -85,34 +72,15 @@ public class Damageable : NetworkBehaviour
         HP = NetHP.Value;
         MaxHP = NetMaxHP.Value;
         HpChanged?.Invoke(this, EventArgs.Empty);
-        /*
-        if(HP <= 0)
-        {
-            if (IsLocalPlayer)
-            {
-                PlayerController pc = transform.GetComponent<PlayerController>();
-                pc.ResetCharacter();
-                RequestMaxHPServerRpc();
-            }
-        }
-        */
     }
     [ServerRpc]
     private void RequestMaxHPServerRpc()
     {
         NetHP.Value = MaxHP;
     }
-    /*
-    [ServerRpc(RequireOwnership =false)]
-    private void SyncNetValuesServerRpc()
-    {
-        NetHP.OnValueChanged?.Invoke(HP, HP);
-    }
-    */
     public void TakeDMGServer(int dmg)
     {
         TakeDMG(dmg);
-        //TakeDMGClientRpc(dmg);
     }
 
     [ClientRpc]

@@ -41,12 +41,12 @@ public class GameManager : NetworkBehaviour
 
     //private List<NetworkClient> ConnectedPlayers = new List<NetworkClient>();
     //private List<ulong> ConnectedPlayerIds = new List<ulong>();
-    private List<EnemyAI> enemies;
+    private List<Enemy> enemies;
     private void Awake()
     {
         
         Instance = this;
-        enemies = new List<EnemyAI>();
+        enemies = new List<Enemy>();
         SpawnInfo = new MapInfo(SpawnTile.transform.Find("Metadata").gameObject);
         CameraPos.OnValueChanged += OnGlobalCameraPosChanged;
 
@@ -81,7 +81,7 @@ public class GameManager : NetworkBehaviour
     private void OnEnemyDied(object sender, EventArgs e)
     {
         Damageable damageable = (Damageable)sender;
-        enemies.Remove(damageable.transform.Find("Script").GetComponent<EnemyAI>());
+        enemies.Remove(damageable.transform.Find("Script").GetComponent<Enemy>());
         Debug.Log($"Ellenfél meghalt, maradt: {enemies.Count}");
 
         damageable.Died -= OnEnemyDied;
@@ -220,10 +220,10 @@ public class GameManager : NetworkBehaviour
             EnemiesToSpawn -= 1;
         }
     }
-    private EnemyAI SpawnNpc(Vector3 SpawnPos, int level, bool isBoss)
+    private Enemy SpawnNpc(Vector3 SpawnPos, int level, bool isBoss)
     {
         GameObject npc = Instantiate(npcPrefab, SpawnPos, Quaternion.identity, NpcHolderGameobject.transform);
-        EnemyAI EnemyLogic = npc.transform.Find("Script").GetComponent<EnemyAI>();
+        Enemy EnemyLogic = npc.transform.Find("Script").GetComponent<Enemy>();
         Transform sprite = npc.transform.Find("Sprite");
 
         if (!isBoss)
@@ -364,7 +364,7 @@ public class GameManager : NetworkBehaviour
 
         NetLevel.Value = 0;
         IsRoundGoing = false;
-        enemies = new List<EnemyAI>();
+        enemies = new List<Enemy>();
 
         StartRound();
     }

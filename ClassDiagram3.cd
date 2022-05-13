@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<ClassDiagram MajorVersion="1" MinorVersion="1">
+<ClassDiagram MajorVersion="1" MinorVersion="1" MembersFormat="NameAndType">
   <Class Name="CodeMonkey.Utils.Button_UI" Collapsed="true" BaseTypeListCollapsed="true">
     <Position X="2.25" Y="0.5" Width="1.5" />
     <TypeIdentifier>
@@ -22,8 +22,15 @@
       <FileName>Assets\Scripts\Combat\BulletMovement.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="Damageable" Collapsed="true">
-    <Position X="0.5" Y="1.5" Width="1.5" />
+  <Class Name="Damageable">
+    <Position X="16.75" Y="3.25" Width="2.5" />
+    <Members>
+      <Field Name="HP" Hidden="true" />
+      <Field Name="MaxHP" Hidden="true" />
+      <Method Name="RequestMaxHPServerRpc" Hidden="true" />
+      <Method Name="TakeDMGClientRpc" Hidden="true" />
+      <Method Name="TakeDMGServer" Hidden="true" />
+    </Members>
     <TypeIdentifier>
       <HashCode>AAIAAAAoATAAIgBgAMAAEAAAQAAAEAAASAAAAAICgAI=</HashCode>
       <FileName>Assets\Scripts\Combat\Damageable.cs</FileName>
@@ -43,15 +50,18 @@
       <FileName>Assets\Scripts\Controls\PlayerController.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="EnemyAI" Collapsed="true">
-    <Position X="4" Y="1.5" Width="1.5" />
+  <Class Name="EnemyAI">
+    <Position X="12.5" Y="2.5" Width="2.75" />
     <TypeIdentifier>
       <HashCode>gAYgQAgBEEQIAQARJGABcAACCKAUQBCASFkCACAAAAA=</HashCode>
       <FileName>Assets\Scripts\Enemy\EnemyAI.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Chest" Collapsed="true">
-    <Position X="5.75" Y="0.5" Width="1.5" />
+    <Position X="16" Y="1.5" Width="2.75" />
+    <Members>
+      <Method Name="OpenChestClientRpc" Hidden="true" />
+    </Members>
     <TypeIdentifier>
       <HashCode>AAAAAAIAICAAAAAAAAAAAAAQAEEAAgAACAAAAAAIAAA=</HashCode>
       <FileName>Assets\Scripts\GameObjects\Chest.cs</FileName>
@@ -86,21 +96,50 @@
     </TypeIdentifier>
   </Class>
   <Class Name="Inventory" Collapsed="true">
-    <Position X="7.5" Y="1.5" Width="1.5" />
+    <Position X="12.75" Y="1.25" Width="2.75" />
+    <Members>
+      <Method Name="getArmor" Hidden="true" />
+      <Method Name="GetArmor" Hidden="true" />
+      <Method Name="getHelmet" Hidden="true" />
+      <Method Name="GetLevel" Hidden="true" />
+      <Method Name="getWeapon" Hidden="true" />
+      <Method Name="GetXp" Hidden="true" />
+      <Field Name="MovementSpeedModifier" Hidden="true" />
+    </Members>
     <TypeIdentifier>
       <HashCode>hAAQAIQAOAAQgACgAAAAAIAJoAkBABjEEAAQCEAmAAI=</HashCode>
       <FileName>Assets\Scripts\Inventory\Inventory.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="ItemWeaponStats" Collapsed="true">
-    <Position X="4" Y="2.5" Width="1.5" />
+  <Class Name="ItemWeaponStats">
+    <Position X="9.25" Y="4.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAFACAAAAAAAAAAAAAAQBAAEAAAAAA=</HashCode>
       <FileName>Assets\Scripts\Inventory\Item.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="Item">
-    <Position X="13.25" Y="0.5" Width="3.75" />
+  <Class Name="Item" Collapsed="true">
+    <Position X="12.75" Y="0.5" Width="2.75" />
+    <Members>
+      <Field Name="amount" Hidden="true" />
+      <Method Name="clone" Hidden="true" />
+      <Method Name="FetchStaticStats" Hidden="true" />
+      <Method Name="GetArmorSprite" Hidden="true" />
+      <Method Name="GetARSprite" Hidden="true" />
+      <Method Name="GetColor" Hidden="true" />
+      <Method Name="GetHelmetSprite" Hidden="true" />
+      <Method Name="GetIcon" Hidden="true" />
+      <Method Name="GetPistolSprite" Hidden="true" />
+      <Method Name="GetRandomEquipment" Hidden="true" />
+      <Method Name="GetRocketLauncherSprite" Hidden="true" />
+      <Method Name="GetSprite" Hidden="true" />
+      <Method Name="IsStackable" Hidden="true" />
+      <Method Name="Item" Hidden="true" />
+      <Field Name="itemTier" Hidden="true" />
+      <Field Name="itemType" Hidden="true" />
+      <Field Name="ShieldDamage" Hidden="true" />
+      <Field Name="WeaponStats" Hidden="true" />
+    </Members>
     <TypeIdentifier>
       <HashCode>SBACAEECAAAAkAAAAAAAIMAAAMIAgBiABAACEFEAAAg=</HashCode>
       <FileName>Assets\Scripts\Inventory\Item.cs</FileName>
@@ -121,14 +160,17 @@
     </TypeIdentifier>
   </Class>
   <Class Name="ItemWorld" Collapsed="true">
-    <Position X="5.75" Y="2.5" Width="1.5" />
+    <Position X="18.75" Y="0.5" Width="4" />
+    <Members>
+      <Method Name="setTriggerTrue" Hidden="true" />
+    </Members>
     <TypeIdentifier>
       <HashCode>AAAAAAAA4AAABCAAAgQAAAAAAGAAAAASCCBQAAAEAEA=</HashCode>
       <FileName>Assets\Scripts\Inventory\ItemWorld.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="ItemWorldSpawner" Collapsed="true">
-    <Position X="7.5" Y="2.5" Width="1.5" />
+    <Position X="23.75" Y="0.5" Width="2.5" />
     <TypeIdentifier>
       <HashCode>ABAAAAAAAAAAAAAgAAAAgAAQBIAAAAAAACAAAAAAAAA=</HashCode>
       <FileName>Assets\Scripts\Inventory\ItemWorldSpawner.cs</FileName>
@@ -193,21 +235,24 @@
     </TypeIdentifier>
   </Class>
   <Struct Name="ItemStructNetcode" Collapsed="true" BaseTypeListCollapsed="true">
-    <Position X="0.5" Y="5.75" Width="1.5" />
+    <Position X="16" Y="0.5" Width="2.25" />
+    <Members>
+      <Method Name="Equals" Hidden="true" />
+    </Members>
     <TypeIdentifier>
       <HashCode>AAAAAAACAAAIACAAgAAAAQAAAAAAoAAAAAACAAAAAAA=</HashCode>
       <FileName>Assets\Scripts\Inventory\ItemStructNetcode.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" Collapsed="true" />
   </Struct>
-  <Enum Name="ItemType" Collapsed="true">
+  <Enum Name="ItemType">
     <Position X="2.25" Y="7" Width="1.5" />
     <TypeIdentifier>
       <HashCode>QAAAAAAAAAAQAIEAAAABBAAAAAAAAgAAAAQAAAAAAAA=</HashCode>
       <FileName>Assets\Scripts\Inventory\Item.cs</FileName>
     </TypeIdentifier>
   </Enum>
-  <Enum Name="ItemTier" Collapsed="true">
+  <Enum Name="ItemTier">
     <Position X="0.5" Y="7" Width="1.5" />
     <TypeIdentifier>
       <HashCode>QAAAAAAAAAAAAAAQAAAAAAAAAAIAAAAAAAAAAAAAAAE=</HashCode>
