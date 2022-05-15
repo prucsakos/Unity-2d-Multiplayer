@@ -128,6 +128,7 @@ public class Inventory
         if(item.itemType == ItemType.Xp)
         {
             ReceiveXp(item.amount);
+            return true;
         }
         if(item.IsStackable())
         {

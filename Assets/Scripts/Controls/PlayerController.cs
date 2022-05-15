@@ -36,14 +36,7 @@ public class PlayerController : NetworkBehaviour
     public NetworkVariable<ItemStructNetcode> NetArmor = new NetworkVariable<ItemStructNetcode>();
     public NetworkVariable<ItemStructNetcode> NetWeapon = new NetworkVariable<ItemStructNetcode>();
 
-    // STATS FROM INVENTORY.GetWeaponStats()
     public bool canFire = true;
-    /*
-    public float fireRate = 0.1f;
-    public int bulletDmg = 1;
-    public float bulletVelocity = 3f;
-    public float bulletRange = 3f;
-    */
 
     public override void OnNetworkSpawn()
     {
@@ -249,14 +242,6 @@ public class PlayerController : NetworkBehaviour
     void ShootServerRpc(Vector3 v, float lookAngle, ulong id, int wd, float bv, float br)
     {
         SetupBulletInst(v, lookAngle, id, wd, bv, br);
-        /*
-        var bull = SetupBulletInst(v, lookAngle);
-        
-        if (bull.TryGetComponent<NetworkObject>(out NetworkObject no))
-        {
-            no.Spawn();
-        }
-        */
         ShootClientRpc(v, lookAngle, id, wd, bv, br);
 
     }
@@ -291,18 +276,6 @@ public class PlayerController : NetworkBehaviour
         
         moveDelta = new Vector3(x, y, 0);
         var _transfrom = PlayerObject.transform;
-
-        // Changin direction
-        /*
-        if (moveDelta.x > 0)
-        {
-            _transfrom.localScale = Vector3.one;
-        }
-        else if (moveDelta.x < 0)
-        {
-            _transfrom.localScale = new Vector3(-1, 1, 1);
-        }
-        */
 
 
 

@@ -23,10 +23,7 @@ public class BulletMovement : NetworkBehaviour
 
     public int dmg;
     public float velocity;
-    // public Rigidbody2D rb;
-    // public CircleCollider2D cc;
     public ulong srcObjId;  // Network Id from NetworkObject
-    //public Vector2 dir;
 
 
     // Start is called before the first frame update
@@ -36,15 +33,6 @@ public class BulletMovement : NetworkBehaviour
         gameObject.layer = LayerMask.NameToLayer("Bullet");
         SpriteRenderer sr = GetComponent<SpriteRenderer>();
         sr.sortingLayerName = "Bullet";
-        /*
-        rb = gameObject.AddComponent<Rigidbody2D>();
-        rb.gravityScale = 0;
-        rb.freezeRotation = true;
-        rb.collisionDetectionMode = CollisionDetectionMode2D.Continuous;
-
-        cc = gameObject.AddComponent<CircleCollider2D>();
-        cc.isTrigger = true;
-        */
     }
 
     // Update is called once per frame
@@ -62,7 +50,6 @@ public class BulletMovement : NetworkBehaviour
         {
             if (no.NetworkObjectId == srcObjId)
             {
-                //Debug.Log("Same Ids");
                 return;
             }
         }

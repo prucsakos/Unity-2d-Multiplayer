@@ -193,41 +193,40 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1ceed1c908f707c4abc3998245ce2793, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  IsBossNetvar:
-    m_InternalValue: 0
   SpriteIdNetvar:
     m_InternalValue: 0
   IsBoss: 0
   SpriteId: 0
-  hasTarget: 0
-  target: {fileID: 0}
-  agent: {fileID: 3492930840783872821}
+  HasTarget: 0
+  Target: {fileID: 0}
+  Agent: {fileID: 3492930840783872821}
   AgentSprite: {fileID: 3053360204017863052}
   Parent: {fileID: 2069397689711756191}
-  whatIsGround:
+  bullet: {fileID: 4195894578845888169, guid: e40c175d80adf5740b768aea1150d612, type: 3}
+  LayerGround:
     serializedVersion: 2
     m_Bits: 512
-  whatIsPlayer:
+  LayerPlayer:
     serializedVersion: 2
     m_Bits: 2048
-  whatIsBlocking:
+  LayerBlocking:
     serializedVersion: 2
-    m_Bits: 0
-  destinationReachedMargin: 0.08
+    m_Bits: 128
+  DestinationReachedMargin: 0.5
   ChaseSpeed: 0.4
   PatrolSpeed: 0.2
   TimeBetweenAttacks: 0.3
   BulletVelocity: 1
   WeaponDamage: 2
+  alreadyAttacked: 0
   IsBotParamsSet: 0
-  walkPoint: {x: 0, y: 0, z: 0}
-  walkPointSet: 0
-  walkPointRange: 1
-  bullet: {fileID: 4195894578845888169, guid: e40c175d80adf5740b768aea1150d612, type: 3}
-  sightRange: 1.2
-  attackRange: 0.6
-  playerInSightRange: 0
-  playerInAttackRange: 0
+  WalkPoint: {x: 0, y: 0, z: 0}
+  WalkPointSet: 0
+  WalkPointRange: 0
+  SightRange: 1.5
+  AttackRange: 0.5
+  PlayerInSightRange: 0
+  PlayerInAttackRange: 0
 --- !u!1 &1912982911916033419
 GameObject:
   m_ObjectHideFlags: 0

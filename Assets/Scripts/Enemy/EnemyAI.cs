@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 using Unity.Netcode;
-public class Enemy : NetworkBehaviour
+public class EnemyAI : NetworkBehaviour
 {
     //public NetworkVariable<bool> IsBossNetvar = new NetworkVariable<bool>();
     public NetworkVariable<int> SpriteIdNetvar = new NetworkVariable<int>();
@@ -15,6 +15,7 @@ public class Enemy : NetworkBehaviour
     public NavMeshAgent Agent;
     public Transform AgentSprite;
     public GameObject Parent;
+    public GameObject bullet;
 
     private Vector3 lastPos;
 
@@ -28,6 +29,7 @@ public class Enemy : NetworkBehaviour
     public float BulletVelocity;
     public int WeaponDamage;
 
+    public bool alreadyAttacked;
     public bool IsBotParamsSet = false;
 
     //Patroling

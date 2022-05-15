@@ -101,7 +101,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sr: {fileID: 0}
   cd: {fileID: 0}
-  isOpened: 0
+  isOpened:
+    m_InternalValue: 0
 --- !u!114 &9157686247348051084
 MonoBehaviour:
   m_ObjectHideFlags: 0

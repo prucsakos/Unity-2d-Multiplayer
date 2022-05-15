@@ -46,7 +46,7 @@
   <Class Name="EnemyAI" Collapsed="true">
     <Position X="4" Y="1.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>gAYgQAgBEEQIAQARJGABcAACCKAUQBCASFkCACAAAAA=</HashCode>
+      <HashCode>gAQAAAgBAEAMQAARQiEAUCAKiKAQQRDAXFgCQAAAAAA=</HashCode>
       <FileName>Assets\Scripts\Enemy\EnemyAI.cs</FileName>
     </TypeIdentifier>
   </Class>
@@ -99,8 +99,8 @@
       <FileName>Assets\Scripts\Inventory\Item.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="Item">
-    <Position X="13.25" Y="0.5" Width="3.75" />
+  <Class Name="Item" Collapsed="true">
+    <Position X="9.25" Y="1.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>SBACAEECAAAAkAAAAAAAIMAAAMIAgBiABAACEFEAAAg=</HashCode>
       <FileName>Assets\Scripts\Inventory\Item.cs</FileName>
@@ -135,14 +135,14 @@
     </TypeIdentifier>
   </Class>
   <Class Name="UIHealthBar" Collapsed="true">
-    <Position X="7.5" Y="3.5" Width="1.5" />
+    <Position X="12.25" Y="2" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAACAAgAAAQAAAAAAAAAAIAAIAAAgEAQAAAAA=</HashCode>
       <FileName>Assets\Scripts\UI\UIHealthBar.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="UIInventory" Collapsed="true">
-    <Position X="9.25" Y="3.5" Width="1.5" />
+  <Class Name="UIInventory">
+    <Position X="11.75" Y="3.25" Width="2.25" />
     <TypeIdentifier>
       <HashCode>CAAAAAAQEAAQABAAAAACAQAAABAQAhEDAAgAQAAAAEA=</HashCode>
       <FileName>Assets\Scripts\UI\UIInventory.cs</FileName>
@@ -163,7 +163,7 @@
     </TypeIdentifier>
   </Class>
   <Class Name="UIXpBar" Collapsed="true">
-    <Position X="4" Y="4.5" Width="1.5" />
+    <Position X="14" Y="2" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAIAAAACAAAAgAAAAAAIAIAAAIAAIIAAgEAQAAAAA=</HashCode>
       <FileName>Assets\Scripts\UI\UIXpBar.cs</FileName>
