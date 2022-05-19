@@ -361,6 +361,7 @@ public class GameManager : NetworkBehaviour
         IsRoundGoing = false;
         enemies = new List<EnemyAI>();
 
+
         StartRound();
     }
 }

@@ -54,7 +54,9 @@ public class Inventory
         MovementSpeed = BaseMovementSpeed + level * MovementSpeedModifier;
 
         ResetInventory();
-        AddItem(new Item(ItemType.AR, ItemTier.Legendary, 1));
+        AddItem(new Item(ItemType.AR, ItemTier.Common, 1));
+        AddItem(new Item(ItemType.Head, ItemTier.Common, 1));
+        AddItem(new Item(ItemType.Body, ItemTier.Good, 1));
     }
     public bool isFull()
     {
