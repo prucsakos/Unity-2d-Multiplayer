@@ -15,6 +15,15 @@ public class UIStat : MonoBehaviour
         currentLevelText.text = GetLevel();
         bestLevelText.text = "";
         gm.NetLevel.OnValueChanged += LevelChanged;
+        gm.BestLevel.OnValueChanged += LevelReset;
+    }
+
+    private void LevelReset(int previousValue, int newValue)
+    {
+        if(gm.BestLevel.Value != 0)
+        {
+            bestLevelText.text = $"Best: {gm.BestLevel.Value}";
+        }
     }
 
     private void LevelChanged(int previousValue, int newValue)

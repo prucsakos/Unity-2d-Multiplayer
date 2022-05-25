@@ -36,6 +36,7 @@ public class GameManager : NetworkBehaviour
     public MapInfo ActiveMapInfo;
 
     public NetworkVariable<int> NetLevel = new NetworkVariable<int>();
+    public NetworkVariable<int> BestLevel = new NetworkVariable<int>(0);
 
     public bool IsRoundGoing = false;
 
@@ -357,6 +358,7 @@ public class GameManager : NetworkBehaviour
             item.GetComponent<Chest>().isOpened.Value = false;
         }
 
+        BestLevel.Value = NetLevel.Value;
         NetLevel.Value = 0;
         IsRoundGoing = false;
         enemies = new List<EnemyAI>();

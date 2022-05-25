@@ -124,6 +124,13 @@ public class Item
         this.amount = isn.amount;
         FetchStaticStats();
     }
+    public Item()
+    {
+        this.itemType = ItemType.AR;
+        this.itemTier = ItemTier.Legendary;
+        this.amount = 1;
+        FetchStaticStats();
+    }
     public Color GetColor()
     {
         switch (itemTier)
