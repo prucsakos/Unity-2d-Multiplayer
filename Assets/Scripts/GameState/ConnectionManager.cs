@@ -6,7 +6,6 @@ using System;
 
 public class ConnectionManager : MonoBehaviour
 {
-    // public int MaxPlayerCount = 3;
     public GameManager gameManager;
     private void Start()
     {

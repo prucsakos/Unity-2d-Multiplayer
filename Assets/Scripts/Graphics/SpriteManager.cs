@@ -22,7 +22,6 @@ public class SpriteManager : MonoBehaviour
     {
         if (!isn.isSet)
         {
-            // HelmetSprite.sprite = null;
             HelmetSprite.color = new Color(0, 0, 0, 0);
             return;
         }

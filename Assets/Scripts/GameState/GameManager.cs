@@ -40,8 +40,6 @@ public class GameManager : NetworkBehaviour
 
     public bool IsRoundGoing = false;
 
-    //private List<NetworkClient> ConnectedPlayers = new List<NetworkClient>();
-    //private List<ulong> ConnectedPlayerIds = new List<ulong>();
     private List<EnemyAI> enemies;
     private void Awake()
     {
@@ -226,24 +224,19 @@ public class GameManager : NetworkBehaviour
         {
             int SpriteInd = UnityEngine.Random.Range(1, ItemAssets.Instance.SimpleEnemySprites.Length);
             EnemyLogic.SpriteIdNetvar.Value = SpriteInd;
-            //EnemyLogic.IsBossNetvar.Value = false;
-            //sprite.GetComponent<SpriteRenderer>().sprite = ItemAssets.Instance.SimpleEnemySprites[SpriteInd];
         } else
         {
             EnemyLogic.SpriteIdNetvar.Value = 0;
-            //EnemyLogic.IsBossNetvar.Value = true;
-            //sprite.GetComponent<SpriteRenderer>().sprite = ItemAssets.Instance.BossSprite;
         }
 
         Damageable EnemyDamagable = npc.GetComponent<Damageable>();
 
-        // config npc
+        // Config Npc
         EnemyLogic.TimeBetweenAttacks = (EnemyLogic.TimeBetweenAttacks / (1f + level * 0.1f)) < 0.1f ? 0.1f : (EnemyLogic.TimeBetweenAttacks / (1f + level * 0.1f));
         EnemyLogic.BulletVelocity = (EnemyLogic.BulletVelocity + level * 0.2f) > 3f ? 3f : (EnemyLogic.BulletVelocity + level * 0.2f);
         EnemyLogic.WeaponDamage = EnemyLogic.WeaponDamage + level;
         EnemyDamagable.SetHp(EnemyDamagable.MaxHP + level * 5);
-
-        // boss
+		
         if (isBoss)
         {
             EnemyLogic.TimeBetweenAttacks /= 1.5f;
@@ -269,6 +262,7 @@ public class GameManager : NetworkBehaviour
     {
         NetworkClient nc = NetworkManager.Singleton.ConnectedClients[id];
         Debug.Log($"Client count: {NetworkManager.Singleton.ConnectedClients.Count}");
+		
         // If host (first joiner)
         if (IsEveryoneOut())
         {
@@ -283,19 +277,6 @@ public class GameManager : NetworkBehaviour
         NetLevel.Value = NetLevel.Value;
     }
 
-    private void RefreshNetworkList()
-    {
-        /*
-        NetworkManager.
-        foreach (NetworkClient item in ConnectedPlayers)
-        {
-            if(item == null)
-            {
-                ConnectedPlayers.Remove(item);
-            }
-        }
-        */
-    }
     private bool IsEveryoneOut(ulong exclude = ulong.MaxValue)
     {
         foreach (NetworkClient item in NetworkManager.Singleton.ConnectedClientsList)
@@ -357,8 +338,17 @@ public class GameManager : NetworkBehaviour
         {
             item.GetComponent<Chest>().isOpened.Value = false;
         }
-
-        BestLevel.Value = NetLevel.Value;
+        if(BestLevel.Value == 0)
+        {
+            BestLevel.Value = NetLevel.Value;
+        }
+        else
+        {
+            if(BestLevel.Value < NetLevel.Value)
+            {
+                BestLevel.Value = NetLevel.Value;
+            }
+        }
         NetLevel.Value = 0;
         IsRoundGoing = false;
         enemies = new List<EnemyAI>();

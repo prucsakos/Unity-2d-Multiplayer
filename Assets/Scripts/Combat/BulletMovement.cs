@@ -23,10 +23,9 @@ public class BulletMovement : NetworkBehaviour
 
     public int dmg;
     public float velocity;
-    public ulong srcObjId;  // Network Id from NetworkObject
+    // Network Id from NetworkObject
+	public ulong srcObjId;  
 
-
-    // Start is called before the first frame update
     void Start()
     {
         
@@ -35,10 +34,8 @@ public class BulletMovement : NetworkBehaviour
         sr.sortingLayerName = "Bullet";
     }
 
-    // Update is called once per frame
     void Update()
     {
-        //transform.Translate(dir * velocity * Time.deltaTime);
         transform.Translate(velocity * Time.deltaTime, 0, 0);
     }
 
@@ -70,7 +67,8 @@ public class BulletMovement : NetworkBehaviour
             return;
         }
     }
-    /*
+    
+	// Deprecated
     // Server call
     void DestroyCall()
     {
@@ -84,5 +82,4 @@ public class BulletMovement : NetworkBehaviour
         if (IsHost) return;
         Destroy(gameObject);
     }
-    */
 }

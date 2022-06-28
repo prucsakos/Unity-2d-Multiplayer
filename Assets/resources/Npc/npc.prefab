@@ -223,7 +223,7 @@ MonoBehaviour:
   WalkPoint: {x: 0, y: 0, z: 0}
   WalkPointSet: 0
   WalkPointRange: 0
-  SightRange: 1.5
+  SightRange: 0.9
   AttackRange: 0.5
   PlayerInSightRange: 0
   PlayerInAttackRange: 0

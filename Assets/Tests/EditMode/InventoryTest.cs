@@ -4,17 +4,17 @@ using NUnit.Framework;
 using UnityEngine;
 using UnityEngine.TestTools;
 
-public class NewTestScript
+public class InventoryTester
 {
     // A Test behaves as an ordinary method
     [Test]
-    public void InventoryInit()
+    public void Inventory_Init()
     {
         Inventory inv = new Inventory(UseItem);
         Assert.IsNotNull(inv);
     }
     [Test]
-    public void InventoryAddRemoveUnique()
+    public void Inventory_Add_Remove_Unique()
     {
         Inventory inv = new Inventory(UseItem);
         Item it = new Item();
@@ -29,7 +29,7 @@ public class NewTestScript
 
     }
     [Test]
-    public void InventoryAddRemoveStackable()
+    public void Inventory_Add_Remove_Stackable()
     {
         Inventory inv = new Inventory(UseItem);
         Item it = new Item(ItemType.Coin, ItemTier.Common, 1);
@@ -48,7 +48,7 @@ public class NewTestScript
 
     }
     [Test]
-    public void InventoryEquipUnequip()
+    public void Inventory_Equip_Unequip()
     {
         Inventory inv = new Inventory(UseItem);
         Item it = new Item(ItemType.Body, ItemTier.Legendary, 1);
@@ -67,7 +67,7 @@ public class NewTestScript
 
     }
     [Test]
-    public void InventoryXP()
+    public void Inventory_XP()
     {
         Inventory inv = new Inventory(UseItem);
         int XP_NUM = 3;

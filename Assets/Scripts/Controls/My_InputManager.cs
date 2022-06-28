@@ -4,11 +4,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using Unity.Netcode;
 
+//DEPRECATED CLASS
 public class My_InputManager : NetworkBehaviour
 {
     public Camera cam;
     public PlayerController pc;
-    // Start is called before the first frame update
+	
     void Start()
     {
         if (!IsLocalPlayer)
@@ -22,7 +23,7 @@ public class My_InputManager : NetworkBehaviour
             
     }
 
-    // Update is called once per frame
+
     void FixedUpdate()
     {
         if (IsLocalPlayer)

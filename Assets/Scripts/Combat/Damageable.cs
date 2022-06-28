@@ -130,6 +130,7 @@ public class Damageable : NetworkBehaviour
     {
         RegenerateServerRpc(am);
     }
+	
     [ServerRpc]
     public void RegenerateServerRpc(int am)
     {

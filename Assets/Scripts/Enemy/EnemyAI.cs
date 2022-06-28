@@ -5,7 +5,6 @@ using UnityEngine.AI;
 using Unity.Netcode;
 public class EnemyAI : NetworkBehaviour
 {
-    //public NetworkVariable<bool> IsBossNetvar = new NetworkVariable<bool>();
     public NetworkVariable<int> SpriteIdNetvar = new NetworkVariable<int>();
     public bool IsBoss = false;
     public int SpriteId = 0;
@@ -43,13 +42,10 @@ public class EnemyAI : NetworkBehaviour
 
     public override void OnNetworkSpawn()
     {
-        // IsBossNetvar.OnValueChanged += OnIsBossChanged;
         SpriteIdNetvar.OnValueChanged += OnSpriteIdChanged;
         AgentSprite.GetComponent<SpriteRenderer>().sprite = ItemAssets.Instance.SimpleEnemySprites[SpriteIdNetvar.Value];
         if (IsServer || IsHost)
         {
-            // agent = transform.GetComponent<NavMeshAgent>();
-            
             Agent.updateUpAxis = false;
             Agent.updateRotation = false;
             Agent.speed = 0.5f;
@@ -61,15 +57,7 @@ public class EnemyAI : NetworkBehaviour
         }
           
     }
-    /*
-    private void OnIsBossChanged(bool previousValue, bool newValue)
-    {
-        if (IsBossNetvar.Value)
-        {
-            AgentSprite.GetComponent<SpriteRenderer>().sprite = ItemAssets.Instance.BossSprite;
-        }
-    }
-    */
+	
     private void OnSpriteIdChanged(int previousValue, int newValue)
     {
         AgentSprite.GetComponent<SpriteRenderer>().sprite = ItemAssets.Instance.SimpleEnemySprites[SpriteIdNetvar.Value];
@@ -81,7 +69,6 @@ public class EnemyAI : NetworkBehaviour
         {
             doUpdate();
         }
-        
     }
 
     void FindTarget()
@@ -151,8 +138,6 @@ public class EnemyAI : NetworkBehaviour
 
     }
 
-    /// enemy logics under
-    
     private void Patroling()
     {
         if (!WalkPointSet) SearchWalkPoint();

@@ -29,10 +29,6 @@ public class UIStat : MonoBehaviour
     private void LevelChanged(int previousValue, int newValue)
     {
         currentLevelText.text = GetLevel();
-        if(newValue == 0)
-        {
-            bestLevelText.text = $"Best: {previousValue}";
-        }
     }
 
     private string GetLevel()

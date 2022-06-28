@@ -11,7 +11,7 @@ public class PlayerController : NetworkBehaviour
     public GameObject PlayerObject;
     public GameObject BulletPrefab;
     public GameObject GunPrefab;
-    //public GameObject UI_INV_GO;
+	
     public Vector3 mouseDir;
     public float lookAngle;
 

@@ -55,7 +55,8 @@ public class Chest : NetworkBehaviour
     private void OpenChestServerRpc()
     {
         isOpened.Value = true;
-        // spawn items
+		
+        // Spawn Items
         ItemWorldSpawner iws = new ItemWorldSpawner(transform.position);
         iws.GenerateDropForChest();
         iws.DropGold();
